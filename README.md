@@ -5,7 +5,7 @@ This is a project made for OOP course at university. It was migrated from datapr
 
 It focuses on the implementation of a cinema reservation system. Currently it allows users to read movies, screenings and to lock and reserve seats for specific screening in the cinema.
 
-It was developed to get better familiarity with Java and its libraries without introducing Spring Boot yet. However I decided to put into practice some of the architectural concepts I learned during my last internship. These are:
+It was developed to get better familiarity with Java and its libraries without introducing Spring Boot yet. However besides standard OOP I decided to put into practice some of the architectural concepts I learned during my last internship. These are:
 - separation of commands and queries
 - rich domain model
 - basic domain-driven design

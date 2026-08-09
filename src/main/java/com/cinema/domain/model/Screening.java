@@ -1,9 +1,13 @@
 package com.cinema.domain.model;
 
 import com.cinema.domain.exception.SeatNotAvailableException;
-import com.cinema.domain.model.vo.*;
+import com.cinema.domain.model.vo.MovieId;
+import com.cinema.domain.model.vo.RoomId;
+import com.cinema.domain.model.vo.ScreeningId;
+import com.cinema.domain.model.vo.ScreeningSeatId;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
@@ -32,7 +36,7 @@ public final class Screening {
                         .collect(Collectors.toMap(ScreeningSeat::getId, Function.identity()));
     }
 
-    public void lockSeat(ScreeningSeatId seatId, java.time.Duration lockTimeout, Clock clock) {
+    public void lockSeat(ScreeningSeatId seatId, Duration lockTimeout, Clock clock) {
         ScreeningSeat seat = getSeatOrThrow(seatId);
 
         if (seat.isLocked() && seat.isLockExpired(lockTimeout, clock)) {
@@ -43,7 +47,7 @@ public final class Screening {
         markAsDirty(seatId);
     }
 
-    public void reserveSeat(ScreeningSeatId seatId, java.time.Duration lockTimeout, Clock clock) {
+    public void reserveSeat(ScreeningSeatId seatId, Duration lockTimeout, Clock clock) {
         ScreeningSeat seat = getSeatOrThrow(seatId);
 
         seat.reserve(lockTimeout, clock);

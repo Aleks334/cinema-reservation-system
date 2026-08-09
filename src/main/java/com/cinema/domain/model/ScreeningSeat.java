@@ -6,6 +6,7 @@ import com.cinema.domain.model.vo.ScreeningSeatId;
 import com.cinema.domain.model.vo.Seat;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
 
@@ -45,7 +46,7 @@ public final class ScreeningSeat {
     }
 
 
-    public void reserve(java.time.Duration timeout, Clock clock) {
+    public void reserve(Duration timeout, Clock clock) {
         if (!isLocked()) {
             if (isReserved()) {
                 throw new SeatNotAvailableException(
@@ -75,7 +76,7 @@ public final class ScreeningSeat {
         this.lockedAt = null;
     }
 
-    public boolean isLockExpired(java.time.Duration timeout, Clock clock) {
+    public boolean isLockExpired(Duration timeout, Clock clock) {
         return isLocked()
                 && lockedAt != null
                 && Instant.now(clock).isAfter(lockedAt.plus(timeout));

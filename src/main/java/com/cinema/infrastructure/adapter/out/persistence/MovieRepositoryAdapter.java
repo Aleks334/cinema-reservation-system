@@ -3,7 +3,7 @@ package com.cinema.infrastructure.adapter.out.persistence;
 import com.cinema.application.port.out.LoadMoviePort;
 import com.cinema.domain.model.MovieGenre;
 import com.cinema.domain.model.vo.Director;
-import com.cinema.domain.model.vo.Duration;
+import com.cinema.domain.model.vo.MovieDuration;
 import com.cinema.domain.model.Movie;
 import com.cinema.domain.model.vo.MovieId;
 import org.slf4j.Logger;
@@ -64,7 +64,7 @@ public final class MovieRepositoryAdapter implements LoadMoviePort {
                 ),
                 rs.getString("description"),
                 MovieGenre.fromDisplayName(rs.getString("genre")),
-                Duration.ofMinutes(rs.getInt("duration_minutes"))
+                MovieDuration.ofMinutes(rs.getInt("duration_minutes"))
         );
     }
 }

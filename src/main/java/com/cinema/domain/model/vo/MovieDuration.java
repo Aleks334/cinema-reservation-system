@@ -2,11 +2,11 @@ package com.cinema.domain.model.vo;
 
 import com.cinema.domain.exception.InvalidDurationException;
 
-public record Duration(int hours, int minutes) {
+public record MovieDuration(int hours, int minutes) {
     private static final int MAX_HOURS = 12;
     private static final int MINUTES_IN_HOUR = 60;
 
-    public Duration {
+    public MovieDuration {
         if (hours < 0 || minutes < 0) {
             throw new InvalidDurationException("Duration hours and minutes must not be negative");
         }
@@ -27,7 +27,7 @@ public record Duration(int hours, int minutes) {
         return hours * MINUTES_IN_HOUR + minutes;
     }
 
-    public static Duration ofMinutes(int totalMinutes) {
+    public static MovieDuration ofMinutes(int totalMinutes) {
         if (totalMinutes <= 0) {
             throw new InvalidDurationException("Total minutes must be greater than 0");
         }
@@ -35,7 +35,7 @@ public record Duration(int hours, int minutes) {
             throw new InvalidDurationException("Total minutes cannot exceed " + (MAX_HOURS * MINUTES_IN_HOUR));
         }
 
-        return new Duration(
+        return new MovieDuration(
                 totalMinutes / MINUTES_IN_HOUR,
                 totalMinutes % MINUTES_IN_HOUR
         );

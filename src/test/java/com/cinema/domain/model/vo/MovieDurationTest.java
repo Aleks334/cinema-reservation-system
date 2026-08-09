@@ -6,21 +6,22 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DurationTest {
+class MovieDurationTest {
 
     @Test
     void shouldCreateValidDuration() {
-        Duration duration = new Duration(2, 30);
-        assertEquals(150, duration.totalMinutes());
+        MovieDuration movieDuration = new MovieDuration(2, 30);
+        assertEquals(150, movieDuration.totalMinutes());
     }
 
     @Test
     void shouldCreateDurationFromTotalMinutes() {
-        Duration duration = Duration.ofMinutes(163);
-        assertEquals(2, duration.hours());
-        assertEquals(43, duration.minutes());
+        MovieDuration movieDuration = MovieDuration.ofMinutes(163);
+        assertEquals(2, movieDuration.hours());
+        assertEquals(43, movieDuration.minutes());
     }
 
     @ParameterizedTest
@@ -33,13 +34,13 @@ class DurationTest {
     })
     void shouldRejectInvalidDuration(int hours, int minutes) {
         assertThrows(InvalidDurationException.class,
-                () -> new Duration(hours, minutes));
+                () -> new MovieDuration(hours, minutes));
     }
 
     @ParameterizedTest
     @ValueSource(ints = {-10, 0, 721})
     void shouldRejectInvalidTotalMinutes(int totalMinutes) {
         assertThrows(InvalidDurationException.class,
-                () -> Duration.ofMinutes(totalMinutes));
+                () -> MovieDuration.ofMinutes(totalMinutes));
     }
 }

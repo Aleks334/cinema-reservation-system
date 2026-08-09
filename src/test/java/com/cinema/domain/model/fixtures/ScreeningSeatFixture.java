@@ -7,12 +7,13 @@ import com.cinema.domain.model.vo.ScreeningSeatId;
 import com.cinema.domain.model.vo.Seat;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 
 public class ScreeningSeatFixture {
 
-    public static final java.time.Duration TIMEOUT = java.time.Duration.ofMinutes(10);
+    public static final Duration TIMEOUT = Duration.ofMinutes(10);
     public static final Instant NOW = Instant.parse("2026-01-05T12:00:00Z");
     public static final Clock FIXED_CLOCK = Clock.fixed(NOW, ZoneId.of("UTC"));
 

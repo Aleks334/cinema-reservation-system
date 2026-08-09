@@ -21,6 +21,7 @@ import com.cinema.domain.model.ScreeningSeat;
 import com.cinema.domain.model.vo.ScreeningSeatId;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
@@ -36,13 +37,13 @@ public final class ScreeningService implements GetScreeningQuery, GetScreeningsF
     private final LoadScreeningPort loadScreeningPort;
     private final SaveScreeningPort saveScreeningPort;
 
-    private final java.time.Duration lockTimeout;
+    private final Duration lockTimeout;
     private final Clock clock;
 
     public ScreeningService(LoadMoviePort loadMoviePort,
                             LoadScreeningPort loadScreeningPort,
                             SaveScreeningPort saveScreeningPort,
-                            java.time.Duration lockTimeout,
+                            Duration lockTimeout,
                             Clock clock) {
         this.loadMoviePort = Objects.requireNonNull(loadMoviePort);
         this.loadScreeningPort = Objects.requireNonNull(loadScreeningPort);

@@ -3,7 +3,7 @@ package com.cinema.domain.model.fixtures;
 import com.cinema.domain.model.Movie;
 import com.cinema.domain.model.MovieGenre;
 import com.cinema.domain.model.vo.Director;
-import com.cinema.domain.model.vo.Duration;
+import com.cinema.domain.model.vo.MovieDuration;
 import com.cinema.domain.model.vo.MovieId;
 
 public class MovieFixture {
@@ -12,8 +12,8 @@ public class MovieFixture {
         return new Director(firstName, lastName);
     }
 
-    public static Duration duration(int hours, int minutes) {
-        return new Duration(hours, minutes);
+    public static MovieDuration duration(int hours, int minutes) {
+        return new MovieDuration(hours, minutes);
     }
 
     public static String validDescription() {

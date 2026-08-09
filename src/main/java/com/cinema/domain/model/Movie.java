@@ -1,7 +1,7 @@
 package com.cinema.domain.model;
 
 import com.cinema.domain.model.vo.Director;
-import com.cinema.domain.model.vo.Duration;
+import com.cinema.domain.model.vo.MovieDuration;
 import com.cinema.domain.model.vo.MovieId;
 
 import java.util.Objects;
@@ -12,13 +12,13 @@ public final class Movie {
     private final Director director;
     private final String description;
     private final MovieGenre genre;
-    private final Duration duration;
+    private final MovieDuration duration;
 
     private static final int MIN_DESCRIPTION_LENGTH = 50;
     private static final int MAX_DESCRIPTION_LENGTH = 300;
 
     public Movie(MovieId id, String title, Director director, String description,
-                 MovieGenre genre, Duration duration) {
+                 MovieGenre genre, MovieDuration duration) {
         this.id = Objects.requireNonNull(id, "Movie ID cannot be null");
 
         this.title = Objects.requireNonNull(title, "Movie title cannot be null");
@@ -60,7 +60,7 @@ public final class Movie {
         return genre;
     }
 
-    public Duration getDuration() {
+    public MovieDuration getDuration() {
         return duration;
     }
 
