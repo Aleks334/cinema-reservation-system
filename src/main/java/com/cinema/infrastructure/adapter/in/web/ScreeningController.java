@@ -7,6 +7,7 @@ import com.cinema.application.port.in.command.LockSeatUseCase;
 import com.cinema.application.port.in.command.ReserveSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.application.port.in.dto.ScreeningSeatDto;
+import com.cinema.application.port.in.query.GetScreeningQuery;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.vo.ScreeningId;
 import com.cinema.domain.model.vo.ScreeningSeatId;
@@ -47,7 +48,7 @@ public final class ScreeningController {
     public void getScreeningById(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("id"));
 
-        ScreeningDto screening = getScreeningHandler.execute(screeningId)
+        ScreeningDto screening = getScreeningHandler.execute(new GetScreeningQuery(screeningId))
                 .orElseThrow(() -> new ScreeningNotFoundException(
                         "Screening with ID " + screeningId + " not found"
                 ));

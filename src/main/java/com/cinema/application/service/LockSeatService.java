@@ -7,8 +7,6 @@ import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.Screening;
-import com.cinema.domain.model.vo.ScreeningId;
-import com.cinema.domain.model.vo.ScreeningSeatId;
 
 import java.time.Clock;
 import java.time.Duration;

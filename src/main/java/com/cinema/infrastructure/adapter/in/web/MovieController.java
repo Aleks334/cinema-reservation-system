@@ -1,8 +1,6 @@
 package com.cinema.infrastructure.adapter.in.web;
 
-import com.cinema.application.port.in.query.GetMovieHandler;
-import com.cinema.application.port.in.query.GetMoviesHandler;
-import com.cinema.application.port.in.query.GetScreeningsForMovieHandler;
+import com.cinema.application.port.in.query.*;
 import com.cinema.application.port.in.dto.MovieDto;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
@@ -58,7 +56,7 @@ public final class MovieController {
     public void getMovieById(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("id"));
 
-        MovieDto movie = getMovieHandler.execute(movieId)
+        MovieDto movie = getMovieHandler.execute(new GetMovieQuery(movieId))
                 .orElseThrow(() -> new NoSuchMovieFoundException(
                         "Movie with ID " + movieId + " not found"
                 ));
@@ -81,7 +79,7 @@ public final class MovieController {
     )
     public void getScreeningsForMovie(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("movieId"));
-        List<ScreeningDto> screenings = getScreeningsForMovieHandler.execute(movieId);
+        List<ScreeningDto> screenings = getScreeningsForMovieHandler.execute(new GetScreeningsForMovieQuery(movieId));
         ctx.json(screenings);
     }
 }

@@ -3,8 +3,8 @@ package com.cinema.application.service;
 import com.cinema.application.mapping.MovieMapper;
 import com.cinema.application.port.in.query.GetMovieHandler;
 import com.cinema.application.port.in.dto.MovieDto;
+import com.cinema.application.port.in.query.GetMovieQuery;
 import com.cinema.application.port.out.MovieRepository;
-import com.cinema.domain.model.vo.MovieId;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -18,9 +18,10 @@ public class GetMovieService implements GetMovieHandler {
     }
 
     @Override
-    public Optional<MovieDto> execute(MovieId movieId) {
-        Objects.requireNonNull(movieId);
-        return repository.findById(movieId)
+    public Optional<MovieDto> execute(GetMovieQuery query) {
+        Objects.requireNonNull(query.movieId());
+
+        return repository.findById(query.movieId())
                 .map(MovieMapper::toDto);
     }
 }
