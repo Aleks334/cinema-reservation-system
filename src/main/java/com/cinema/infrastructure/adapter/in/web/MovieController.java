@@ -1,8 +1,8 @@
 package com.cinema.infrastructure.adapter.in.web;
 
-import com.cinema.application.port.in.query.GetMovieQuery;
-import com.cinema.application.port.in.query.GetMoviesQuery;
-import com.cinema.application.port.in.query.GetScreeningsForMovieQuery;
+import com.cinema.application.port.in.query.GetMovieHandler;
+import com.cinema.application.port.in.query.GetMoviesHandler;
+import com.cinema.application.port.in.query.GetScreeningsForMovieHandler;
 import com.cinema.application.port.in.dto.MovieDto;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
@@ -16,16 +16,16 @@ import io.javalin.openapi.OpenApiResponse;
 import java.util.List;
 
 public final class MovieController {
-    private final GetMoviesQuery getMoviesQuery;
-    private final GetMovieQuery getMovieQuery;
-    private final GetScreeningsForMovieQuery getScreeningsForMovieQuery;
+    private final GetMoviesHandler getMoviesHandler;
+    private final GetMovieHandler getMovieHandler;
+    private final GetScreeningsForMovieHandler getScreeningsForMovieHandler;
 
-    public MovieController(GetMoviesQuery getMoviesQuery,
-                           GetMovieQuery getMovieQuery,
-                           GetScreeningsForMovieQuery getScreeningsForMovieQuery) {
-        this.getMoviesQuery = getMoviesQuery;
-        this.getMovieQuery = getMovieQuery;
-        this.getScreeningsForMovieQuery = getScreeningsForMovieQuery;
+    public MovieController(GetMoviesHandler getMoviesHandler,
+                           GetMovieHandler getMovieHandler,
+                           GetScreeningsForMovieHandler getScreeningsForMovieHandler) {
+        this.getMoviesHandler = getMoviesHandler;
+        this.getMovieHandler = getMovieHandler;
+        this.getScreeningsForMovieHandler = getScreeningsForMovieHandler;
     }
 
     @OpenApi(
@@ -38,7 +38,7 @@ public final class MovieController {
             }
     )
     public void getAllMovies(Context ctx) {
-        List<MovieDto> movies = getMoviesQuery.getMovies();
+        List<MovieDto> movies = getMoviesHandler.getMovies();
         ctx.json(movies);
     }
 
@@ -58,7 +58,7 @@ public final class MovieController {
     public void getMovieById(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("id"));
 
-        MovieDto movie = getMovieQuery.getMovie(movieId)
+        MovieDto movie = getMovieHandler.getMovie(movieId)
                 .orElseThrow(() -> new NoSuchMovieFoundException(
                         "Movie with ID " + movieId + " not found"
                 ));
@@ -81,7 +81,7 @@ public final class MovieController {
     )
     public void getScreeningsForMovie(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("movieId"));
-        List<ScreeningDto> screenings = getScreeningsForMovieQuery.getScreeningsForMovie(movieId);
+        List<ScreeningDto> screenings = getScreeningsForMovieHandler.getScreeningsForMovie(movieId);
         ctx.json(screenings);
     }
 }

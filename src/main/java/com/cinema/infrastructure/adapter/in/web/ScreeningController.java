@@ -1,6 +1,6 @@
 package com.cinema.infrastructure.adapter.in.web;
 
-import com.cinema.application.port.in.query.GetScreeningQuery;
+import com.cinema.application.port.in.query.GetScreeningHandler;
 import com.cinema.application.port.in.command.LockSeatUseCase;
 import com.cinema.application.port.in.command.ReserveSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningDto;
@@ -16,14 +16,14 @@ import io.javalin.openapi.OpenApiParam;
 import io.javalin.openapi.OpenApiResponse;
 
 public final class ScreeningController {
-    private final GetScreeningQuery getScreeningQuery;
+    private final GetScreeningHandler getScreeningHandler;
     private final LockSeatUseCase lockSeatUseCase;
     private final ReserveSeatUseCase reserveSeatUseCase;
 
-    public ScreeningController(GetScreeningQuery getScreeningQuery,
+    public ScreeningController(GetScreeningHandler getScreeningHandler,
                                LockSeatUseCase lockSeatUseCase,
                                ReserveSeatUseCase reserveSeatUseCase) {
-        this.getScreeningQuery = getScreeningQuery;
+        this.getScreeningHandler = getScreeningHandler;
         this.lockSeatUseCase = lockSeatUseCase;
         this.reserveSeatUseCase = reserveSeatUseCase;
     }
@@ -45,7 +45,7 @@ public final class ScreeningController {
     public void getScreeningById(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("id"));
 
-        ScreeningDto screening = getScreeningQuery.getScreening(screeningId)
+        ScreeningDto screening = getScreeningHandler.getScreening(screeningId)
                 .orElseThrow(() -> new ScreeningNotFoundException(
                         "Screening with ID " + screeningId + " not found"
                 ));

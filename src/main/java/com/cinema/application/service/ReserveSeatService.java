@@ -1,4 +1,4 @@
-package com.cinema.application.handler.command;
+package com.cinema.application.service;
 
 import com.cinema.application.mapping.ScreeningSeatMapper;
 import com.cinema.application.port.in.command.ReserveSeatUseCase;
@@ -13,13 +13,13 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.Objects;
 
-public class ReserveSeatHandler implements ReserveSeatUseCase {
+public class ReserveSeatService implements ReserveSeatUseCase {
 
     private final ScreeningRepository repository;
     private final Duration lockTimeout;
     private final Clock clock;
 
-    public ReserveSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
+    public ReserveSeatService(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
         this.repository = Objects.requireNonNull(repository);
         this.lockTimeout = Objects.requireNonNull(lockTimeout);
         this.clock = clock;

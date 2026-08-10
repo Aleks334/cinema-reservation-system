@@ -4,6 +4,6 @@ import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.domain.model.vo.MovieId;
 import java.util.List;
 
-public interface GetScreeningsForMovieQuery {
+public interface GetScreeningsForMovieHandler {
     List<ScreeningDto> getScreeningsForMovie(MovieId movieId);
 }

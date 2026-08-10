@@ -1,7 +1,7 @@
-package com.cinema.application.handler.query;
+package com.cinema.application.service;
 
 import com.cinema.application.mapping.MovieMapper;
-import com.cinema.application.port.in.query.GetMovieQuery;
+import com.cinema.application.port.in.query.GetMovieHandler;
 import com.cinema.application.port.in.dto.MovieDto;
 import com.cinema.application.port.out.MovieRepository;
 import com.cinema.domain.model.vo.MovieId;
@@ -9,11 +9,11 @@ import com.cinema.domain.model.vo.MovieId;
 import java.util.Objects;
 import java.util.Optional;
 
-public class GetMovieHandler implements GetMovieQuery {
+public class GetMovieService implements GetMovieHandler {
 
     private final MovieRepository repository;
 
-    public GetMovieHandler(MovieRepository repository) {
+    public GetMovieService(MovieRepository repository) {
         this.repository = repository;
     }
 

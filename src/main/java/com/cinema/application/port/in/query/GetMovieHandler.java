@@ -4,6 +4,6 @@ import com.cinema.application.port.in.dto.MovieDto;
 import com.cinema.domain.model.vo.MovieId;
 import java.util.Optional;
 
-public interface GetMovieQuery {
+public interface GetMovieHandler {
     Optional<MovieDto> getMovie(MovieId movieId);
 }
