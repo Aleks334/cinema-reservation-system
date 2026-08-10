@@ -8,17 +8,17 @@ public final class ControllerFactory {
     private ControllerFactory() {
     }
 
-    public static Controllers createControllers(ScreeningService screeningService) {
+    public static Controllers createControllers(ApplicationHandlerFactory.ApplicationHandlers appHandlers) {
         return new Controllers(
                 new MovieController(
-                        screeningService,
-                        screeningService,
-                        screeningService
+                        appHandlers.getGetMoviesQueryHandler(),
+                        appHandlers.getGetMovieQueryHandler(),
+                        appHandlers.getGetScreeningsForMovieQueryHandler()
                 ),
                 new ScreeningController(
-                        screeningService,
-                        screeningService,
-                        screeningService
+                        appHandlers.getGetScreeningQueryHandler(),
+                        appHandlers.getLockSeatUseCaseHandler(),
+                        appHandlers.getReserveSeatUseCaseHandler()
                 )
         );
     }

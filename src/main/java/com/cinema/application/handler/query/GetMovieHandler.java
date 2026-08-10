@@ -1,7 +1,7 @@
-package com.cinema.application.queries.getmovie;
+package com.cinema.application.handler.query;
 
-import com.cinema.application.mappers.MovieMapper;
-import com.cinema.application.port.in.GetMovieQuery;
+import com.cinema.application.mapping.MovieMapper;
+import com.cinema.application.port.in.query.GetMovieQuery;
 import com.cinema.application.port.in.dto.MovieDto;
 import com.cinema.application.port.out.MovieRepository;
 import com.cinema.domain.model.vo.MovieId;

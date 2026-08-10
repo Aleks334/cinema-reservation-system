@@ -1,8 +1,8 @@
 package com.cinema.infrastructure.adapter.in.web;
 
-import com.cinema.application.port.in.GetMovieQuery;
-import com.cinema.application.port.in.GetMoviesQuery;
-import com.cinema.application.port.in.GetScreeningsForMovieQuery;
+import com.cinema.application.port.in.query.GetMovieQuery;
+import com.cinema.application.port.in.query.GetMoviesQuery;
+import com.cinema.application.port.in.query.GetScreeningsForMovieQuery;
 import com.cinema.application.port.in.dto.MovieDto;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.domain.exception.NoSuchMovieFoundException;

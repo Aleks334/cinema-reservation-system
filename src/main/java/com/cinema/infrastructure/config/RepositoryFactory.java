@@ -1,8 +1,8 @@
 package com.cinema.infrastructure.config;
 
-import com.cinema.infrastructure.adapter.out.persistence.CinemaRepositoryAdapter;
-import com.cinema.infrastructure.adapter.out.persistence.MovieRepositoryAdapter;
-import com.cinema.infrastructure.adapter.out.persistence.ScreeningRepositoryAdapter;
+import com.cinema.infrastructure.adapter.out.persistence.SqlCinemaRepository;
+import com.cinema.infrastructure.adapter.out.persistence.SqlMovieRepository;
+import com.cinema.infrastructure.adapter.out.persistence.SqlScreeningRepository;
 import java.sql.Connection;
 
 public final class RepositoryFactory {
@@ -12,34 +12,34 @@ public final class RepositoryFactory {
 
     public static Repositories createRepositories(Connection connection) {
         return new Repositories(
-                new MovieRepositoryAdapter(connection),
-                new CinemaRepositoryAdapter(connection),
-                new ScreeningRepositoryAdapter(connection)
+                new SqlMovieRepository(connection),
+                new SqlCinemaRepository(connection),
+                new SqlScreeningRepository(connection)
         );
     }
 
     public static final class Repositories {
-        private final MovieRepositoryAdapter movieRepository;
-        private final CinemaRepositoryAdapter cinemaRepository;
-        private final ScreeningRepositoryAdapter screeningRepository;
+        private final SqlMovieRepository movieRepository;
+        private final SqlCinemaRepository cinemaRepository;
+        private final SqlScreeningRepository screeningRepository;
 
-        private Repositories(MovieRepositoryAdapter movieRepository,
-                            CinemaRepositoryAdapter cinemaRepository,
-                            ScreeningRepositoryAdapter screeningRepository) {
+        private Repositories(SqlMovieRepository movieRepository,
+                             SqlCinemaRepository cinemaRepository,
+                             SqlScreeningRepository screeningRepository) {
             this.movieRepository = movieRepository;
             this.cinemaRepository = cinemaRepository;
             this.screeningRepository = screeningRepository;
         }
 
-        public MovieRepositoryAdapter getMovieRepository() {
+        public SqlMovieRepository getMovieRepository() {
             return movieRepository;
         }
 
-        public CinemaRepositoryAdapter getCinemaRepository() {
+        public SqlCinemaRepository getCinemaRepository() {
             return cinemaRepository;
         }
 
-        public ScreeningRepositoryAdapter getScreeningRepository() {
+        public SqlScreeningRepository getScreeningRepository() {
             return screeningRepository;
         }
     }

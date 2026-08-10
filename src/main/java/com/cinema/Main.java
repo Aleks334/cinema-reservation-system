@@ -10,7 +10,7 @@ import com.cinema.infrastructure.config.AppConfig;
 import com.cinema.infrastructure.config.ControllerFactory;
 import com.cinema.infrastructure.config.DatabaseConfig;
 import com.cinema.infrastructure.config.RepositoryFactory;
-import com.cinema.infrastructure.config.ServiceFactory;
+import com.cinema.infrastructure.config.ApplicationHandlerFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.Javalin;
@@ -37,12 +37,12 @@ public final class Main {
 
         Connection connection = DatabaseConfig.getConnection(appConfig);
         RepositoryFactory.Repositories repositories = RepositoryFactory.createRepositories(connection);
-        ScreeningService screeningService = ServiceFactory.createScreeningService(
+        ApplicationHandlerFactory.ApplicationHandlers appHandlers = ApplicationHandlerFactory.createApplicationHandlers(
                 repositories,
                 appConfig.getLockTimeout(),
                 clock
         );
-        ControllerFactory.Controllers controllers = ControllerFactory.createControllers(screeningService);
+        ControllerFactory.Controllers controllers = ControllerFactory.createControllers(appHandlers);
 
         Javalin app = createJavalinApp(appConfig);
 

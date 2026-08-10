@@ -1,10 +1,10 @@
-package com.cinema.application.mappers;
+package com.cinema.application.mapping;
 
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.domain.model.Screening;
 
-import static com.cinema.application.mappers.Formatters.DATE_FORMATTER;
-import static com.cinema.application.mappers.Formatters.TIME_FORMATTER;
+import static com.cinema.application.mapping.Formatters.DATE_FORMATTER;
+import static com.cinema.application.mapping.Formatters.TIME_FORMATTER;
 
 public final class ScreeningMapper {
 

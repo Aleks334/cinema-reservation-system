@@ -1,7 +1,7 @@
-package com.cinema.application.commands.lockseat;
+package com.cinema.application.handler.command;
 
-import com.cinema.application.mappers.ScreeningSeatMapper;
-import com.cinema.application.port.in.LockSeatUseCase;
+import com.cinema.application.mapping.ScreeningSeatMapper;
+import com.cinema.application.port.in.command.ReserveSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
@@ -13,20 +13,20 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.Objects;
 
-public class LockSeatHandler implements LockSeatUseCase {
+public class ReserveSeatHandler implements ReserveSeatUseCase {
 
     private final ScreeningRepository repository;
     private final Duration lockTimeout;
     private final Clock clock;
 
-    public LockSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
+    public ReserveSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
         this.repository = Objects.requireNonNull(repository);
         this.lockTimeout = Objects.requireNonNull(lockTimeout);
         this.clock = clock;
     }
 
     @Override
-    public ScreeningSeatDto lockSeat(ScreeningId screeningId, ScreeningSeatId seatId) {
+    public ScreeningSeatDto reserveSeat(ScreeningId screeningId, ScreeningSeatId seatId) {
         Objects.requireNonNull(screeningId);
         Objects.requireNonNull(seatId);
 
@@ -35,7 +35,7 @@ public class LockSeatHandler implements LockSeatUseCase {
                         "Screening with ID " + screeningId + " not found"
                 ));
 
-        screening.lockSeat(seatId, lockTimeout, clock);
+        screening.reserveSeat(seatId, lockTimeout, clock);
         repository.save(screening);
         screening.clearModifiedSeats();
 

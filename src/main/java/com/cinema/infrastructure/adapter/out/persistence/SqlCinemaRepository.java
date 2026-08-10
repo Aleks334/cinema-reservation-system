@@ -19,11 +19,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class CinemaRepositoryAdapter implements CinemaRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CinemaRepositoryAdapter.class);
+public final class SqlCinemaRepository implements CinemaRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SqlCinemaRepository.class);
     private final Map<UUID, Cinema> cache = new ConcurrentHashMap<>();
 
-    public CinemaRepositoryAdapter(Connection connection) {
+    public SqlCinemaRepository(Connection connection) {
         loadAllCinemasIntoCache(connection);
     }
 

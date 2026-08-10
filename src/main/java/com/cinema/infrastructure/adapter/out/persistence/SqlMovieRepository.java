@@ -18,11 +18,11 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class MovieRepositoryAdapter implements MovieRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(MovieRepositoryAdapter.class);
+public final class SqlMovieRepository implements MovieRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SqlMovieRepository.class);
     private final Map<UUID, Movie> cache = new ConcurrentHashMap<>();
 
-    public MovieRepositoryAdapter(Connection connection) {
+    public SqlMovieRepository(Connection connection) {
         loadAllMoviesIntoCache(connection);
     }
 

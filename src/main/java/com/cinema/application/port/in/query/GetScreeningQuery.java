@@ -1,4 +1,4 @@
-package com.cinema.application.port.in;
+package com.cinema.application.port.in.query;
 
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.domain.model.vo.ScreeningId;

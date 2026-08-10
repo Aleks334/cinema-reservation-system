@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public final class ScreeningRepositoryAdapter implements ScreeningRepository {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ScreeningRepositoryAdapter.class);
+public final class SqlScreeningRepository implements ScreeningRepository {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SqlScreeningRepository.class);
     private final Connection connection;
 
-    public ScreeningRepositoryAdapter(Connection connection) {
+    public SqlScreeningRepository(Connection connection) {
         this.connection = connection;
     }
 

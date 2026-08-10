@@ -1,4 +1,4 @@
-package com.cinema.application.mappers;
+package com.cinema.application.mapping;
 
 import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.domain.model.ScreeningSeat;

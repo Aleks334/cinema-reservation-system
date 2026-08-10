@@ -1,4 +1,4 @@
-package com.cinema.application.mappers;
+package com.cinema.application.mapping;
 
 import java.time.format.DateTimeFormatter;
 

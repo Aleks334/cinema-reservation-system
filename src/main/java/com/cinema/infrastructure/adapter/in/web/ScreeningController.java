@@ -1,8 +1,8 @@
 package com.cinema.infrastructure.adapter.in.web;
 
-import com.cinema.application.port.in.GetScreeningQuery;
-import com.cinema.application.port.in.LockSeatUseCase;
-import com.cinema.application.port.in.ReserveSeatUseCase;
+import com.cinema.application.port.in.query.GetScreeningQuery;
+import com.cinema.application.port.in.command.LockSeatUseCase;
+import com.cinema.application.port.in.command.ReserveSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.domain.exception.ScreeningNotFoundException;

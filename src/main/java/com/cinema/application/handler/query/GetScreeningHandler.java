@@ -1,7 +1,7 @@
-package com.cinema.application.queries.getscreening;
+package com.cinema.application.handler.query;
 
-import com.cinema.application.mappers.ScreeningMapper;
-import com.cinema.application.port.in.GetScreeningQuery;
+import com.cinema.application.mapping.ScreeningMapper;
+import com.cinema.application.port.in.query.GetScreeningQuery;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.model.vo.ScreeningId;
