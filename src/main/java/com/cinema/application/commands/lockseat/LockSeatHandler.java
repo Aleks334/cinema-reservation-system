@@ -1,11 +1,11 @@
 package com.cinema.application.commands.lockseat;
 
+import com.cinema.application.mappers.ScreeningSeatMapper;
 import com.cinema.application.port.in.LockSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.Screening;
-import com.cinema.domain.model.ScreeningSeat;
 import com.cinema.domain.model.vo.ScreeningId;
 import com.cinema.domain.model.vo.ScreeningSeatId;
 
@@ -41,18 +41,8 @@ public class LockSeatHandler implements LockSeatUseCase {
 
         return screening.getScreeningSeats().stream()
                 .filter(s -> s.getId().equals(seatId))
-                .map(this::mapToScreeningSeatDto)
+                .map(ScreeningSeatMapper::toDto)
                 .findFirst()
                 .orElseThrow();
-    }
-
-    private ScreeningSeatDto mapToScreeningSeatDto(ScreeningSeat seat) {
-        return new ScreeningSeatDto(
-                seat.getId().toString(),
-                seat.getSeat().row(),
-                seat.getSeat().number(),
-                seat.getSeat().seatType().name(),
-                seat.getStatus().name()
-        );
     }
 }
