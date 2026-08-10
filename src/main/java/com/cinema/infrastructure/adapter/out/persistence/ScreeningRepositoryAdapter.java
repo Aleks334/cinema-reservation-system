@@ -1,7 +1,6 @@
 package com.cinema.infrastructure.adapter.out.persistence;
 
-import com.cinema.application.port.out.LoadScreeningPort;
-import com.cinema.application.port.out.SaveScreeningPort;
+import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
 import com.cinema.domain.model.vo.MovieId;
 import com.cinema.domain.model.vo.RoomId;
@@ -23,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public final class ScreeningRepositoryAdapter implements LoadScreeningPort, SaveScreeningPort {
+public final class ScreeningRepositoryAdapter implements ScreeningRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(ScreeningRepositoryAdapter.class);
     private final Connection connection;
 
@@ -32,7 +31,7 @@ public final class ScreeningRepositoryAdapter implements LoadScreeningPort, Save
     }
 
     @Override
-    public Optional<Screening> loadById(ScreeningId screeningId) {
+    public Optional<Screening> findById(ScreeningId screeningId) {
         String sql = "SELECT s.id, s.movie_id, s.room_id, s.start_date_time, "
                 + "ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type, "
                 + "ss.status, ss.locked_at, ss.version "
@@ -52,7 +51,7 @@ public final class ScreeningRepositoryAdapter implements LoadScreeningPort, Save
     }
 
     @Override
-    public List<Screening> loadByMovieId(MovieId movieId) {
+    public List<Screening> findByMovieId(MovieId movieId) {
         String sql = "SELECT s.id, s.movie_id, s.room_id, s.start_date_time, "
                 + "ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type, "
                 + "ss.status, ss.locked_at, ss.version "

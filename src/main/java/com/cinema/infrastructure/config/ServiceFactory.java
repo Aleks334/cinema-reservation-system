@@ -17,7 +17,6 @@ public final class ServiceFactory {
         return new ScreeningService(
                 repositories.getMovieRepository(),
                 repositories.getScreeningRepository(),
-                repositories.getScreeningRepository(),
                 lockTimeout,
                 clock
         );

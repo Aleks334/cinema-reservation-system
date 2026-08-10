@@ -1,6 +1,6 @@
 package com.cinema.infrastructure.adapter.out.persistence;
 
-import com.cinema.application.port.out.LoadCinemaPort;
+import com.cinema.application.port.out.CinemaRepository;
 import com.cinema.domain.model.Cinema;
 import com.cinema.domain.model.vo.CinemaId;
 import com.cinema.domain.model.Room;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class CinemaRepositoryAdapter implements LoadCinemaPort {
+public final class CinemaRepositoryAdapter implements CinemaRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(CinemaRepositoryAdapter.class);
     private final Map<UUID, Cinema> cache = new ConcurrentHashMap<>();
 
@@ -28,7 +28,7 @@ public final class CinemaRepositoryAdapter implements LoadCinemaPort {
     }
 
     @Override
-    public Optional<Cinema> loadById(CinemaId cinemaId) {
+    public Optional<Cinema> findById(CinemaId cinemaId) {
         return Optional.ofNullable(cache.get(cinemaId.value()));
     }
 
