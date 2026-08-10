@@ -1,6 +1,5 @@
 package com.cinema;
 
-import com.cinema.application.service.ScreeningService;
 import com.cinema.domain.exception.LockExpiredException;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;

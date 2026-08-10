@@ -1,7 +1,5 @@
 package com.cinema.infrastructure.config;
 
-import com.cinema.application.service.ScreeningService;
-
 import java.time.Clock;
 import java.time.Duration;
 

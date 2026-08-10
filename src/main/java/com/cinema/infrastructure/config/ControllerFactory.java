@@ -1,6 +1,5 @@
 package com.cinema.infrastructure.config;
 
-import com.cinema.application.service.ScreeningService;
 import com.cinema.infrastructure.adapter.in.web.MovieController;
 import com.cinema.infrastructure.adapter.in.web.ScreeningController;
 
