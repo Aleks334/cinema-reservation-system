@@ -112,5 +112,5 @@ http-client.private.env.json
 *.sqlite3
 
 .idea/
-
 logs/
+/out/
