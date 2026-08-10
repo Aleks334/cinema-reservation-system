@@ -1,13 +1,11 @@
 package com.cinema.infrastructure.adapter.in.web;
 
+import com.cinema.application.port.in.command.CommandBus;
 import com.cinema.application.port.in.command.LockSeatCommand;
 import com.cinema.application.port.in.command.ReserveSeatCommand;
-import com.cinema.application.port.in.query.GetScreeningHandler;
-import com.cinema.application.port.in.command.LockSeatUseCase;
-import com.cinema.application.port.in.command.ReserveSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningDto;
-import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.application.port.in.query.GetScreeningQuery;
+import com.cinema.application.port.in.query.QueryBus;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.vo.ScreeningId;
 import com.cinema.domain.model.vo.ScreeningSeatId;
@@ -19,16 +17,12 @@ import io.javalin.openapi.OpenApiParam;
 import io.javalin.openapi.OpenApiResponse;
 
 public final class ScreeningController {
-    private final GetScreeningHandler getScreeningHandler;
-    private final LockSeatUseCase lockSeatUseCase;
-    private final ReserveSeatUseCase reserveSeatUseCase;
+    private final QueryBus queryBus;
+    private final CommandBus commandBus;
 
-    public ScreeningController(GetScreeningHandler getScreeningHandler,
-                               LockSeatUseCase lockSeatUseCase,
-                               ReserveSeatUseCase reserveSeatUseCase) {
-        this.getScreeningHandler = getScreeningHandler;
-        this.lockSeatUseCase = lockSeatUseCase;
-        this.reserveSeatUseCase = reserveSeatUseCase;
+    public ScreeningController(CommandBus commandBus, QueryBus queryBus) {
+        this.queryBus = queryBus;
+        this.commandBus = commandBus;
     }
 
     @OpenApi(
@@ -48,7 +42,7 @@ public final class ScreeningController {
     public void getScreeningById(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("id"));
 
-        ScreeningDto screening = getScreeningHandler.execute(new GetScreeningQuery(screeningId))
+        ScreeningDto screening = queryBus.execute(new GetScreeningQuery(screeningId))
                 .orElseThrow(() -> new ScreeningNotFoundException(
                         "Screening with ID " + screeningId + " not found"
                 ));
@@ -66,7 +60,7 @@ public final class ScreeningController {
                     @OpenApiParam(name = "seatId", description = "Seat UUID", required = true)
             },
             responses = {
-                    @OpenApiResponse(status = "200", content = @OpenApiContent(from = ScreeningSeatDto.class)),
+                    @OpenApiResponse(status = "204", description = "Seat is locked"),
                     @OpenApiResponse(status = "404", description = "Not found"),
                     @OpenApiResponse(status = "409", description = "Conflict")
             }
@@ -75,9 +69,8 @@ public final class ScreeningController {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
         ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
 
-        ScreeningSeatDto updatedSeat = lockSeatUseCase.handle(new LockSeatCommand(screeningId, screeningSeatId));
-
-        ctx.status(200).json(updatedSeat);
+        commandBus.dispatch(new LockSeatCommand(screeningId, screeningSeatId));
+        ctx.status(204);
     }
 
     @OpenApi(
@@ -90,7 +83,7 @@ public final class ScreeningController {
                     @OpenApiParam(name = "seatId", description = "Seat UUID", required = true)
             },
             responses = {
-                    @OpenApiResponse(status = "200", content = @OpenApiContent(from = ScreeningSeatDto.class)),
+                    @OpenApiResponse(status = "204", description = "Seat is reserved"),
                     @OpenApiResponse(status = "404", description = "Not found"),
                     @OpenApiResponse(status = "409", description = "Conflict")
             }
@@ -99,8 +92,7 @@ public final class ScreeningController {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
         ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
 
-        ScreeningSeatDto updatedSeat = reserveSeatUseCase.handle(new ReserveSeatCommand(screeningId, screeningSeatId));
-
-        ctx.status(200).json(updatedSeat);
+        commandBus.dispatch(new ReserveSeatCommand(screeningId, screeningSeatId));
+        ctx.status(204);
     }
 }

@@ -1,24 +1,24 @@
-package com.cinema.application.service;
+package com.cinema.application.handler;
 
 import com.cinema.application.mapping.ScreeningMapper;
-import com.cinema.application.port.in.query.GetScreeningHandler;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.application.port.in.query.GetScreeningQuery;
+import com.cinema.application.port.in.query.QueryHandler;
 import com.cinema.application.port.out.ScreeningRepository;
 
 import java.util.Objects;
 import java.util.Optional;
 
-public class GetScreeningService implements GetScreeningHandler {
+public class GetScreeningHandler implements QueryHandler<GetScreeningQuery, Optional<ScreeningDto>> {
 
     private final ScreeningRepository repository;
 
-    public GetScreeningService(ScreeningRepository repository) {
+    public GetScreeningHandler(ScreeningRepository repository) {
         this.repository = repository;
     }
 
     @Override
-    public Optional<ScreeningDto> execute(GetScreeningQuery query) {
+    public Optional<ScreeningDto> handle(GetScreeningQuery query) {
         Objects.requireNonNull(query.screeningId());
         return repository.findById(query.screeningId())
                 .map(ScreeningMapper::toDto);

@@ -1,5 +1,7 @@
 package com.cinema.infrastructure.config;
 
+import com.cinema.application.port.in.command.CommandBus;
+import com.cinema.application.port.in.query.QueryBus;
 import com.cinema.infrastructure.adapter.in.web.MovieController;
 import com.cinema.infrastructure.adapter.in.web.ScreeningController;
 
@@ -8,18 +10,10 @@ public final class ControllerFactory {
     private ControllerFactory() {
     }
 
-    public static Controllers createControllers(ApplicationHandlerFactory.ApplicationHandlers appHandlers) {
+    public static Controllers createControllers(CommandBus commandBus, QueryBus queryBus) {
         return new Controllers(
-                new MovieController(
-                        appHandlers.getGetMoviesQueryHandler(),
-                        appHandlers.getGetMovieQueryHandler(),
-                        appHandlers.getGetScreeningsForMovieQueryHandler()
-                ),
-                new ScreeningController(
-                        appHandlers.getGetScreeningQueryHandler(),
-                        appHandlers.getLockSeatUseCaseHandler(),
-                        appHandlers.getReserveSeatUseCaseHandler()
-                )
+                new MovieController(queryBus),
+                new ScreeningController(commandBus, queryBus)
         );
     }
 

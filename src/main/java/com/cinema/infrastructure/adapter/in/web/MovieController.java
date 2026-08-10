@@ -14,16 +14,11 @@ import io.javalin.openapi.OpenApiResponse;
 import java.util.List;
 
 public final class MovieController {
-    private final GetMoviesHandler getMoviesHandler;
-    private final GetMovieHandler getMovieHandler;
-    private final GetScreeningsForMovieHandler getScreeningsForMovieHandler;
+    private final QueryBus queryBus;
 
-    public MovieController(GetMoviesHandler getMoviesHandler,
-                           GetMovieHandler getMovieHandler,
-                           GetScreeningsForMovieHandler getScreeningsForMovieHandler) {
-        this.getMoviesHandler = getMoviesHandler;
-        this.getMovieHandler = getMovieHandler;
-        this.getScreeningsForMovieHandler = getScreeningsForMovieHandler;
+    public MovieController(QueryBus queryBus) {
+
+        this.queryBus = queryBus;
     }
 
     @OpenApi(
@@ -36,7 +31,7 @@ public final class MovieController {
             }
     )
     public void getAllMovies(Context ctx) {
-        List<MovieDto> movies = getMoviesHandler.execute();
+        List<MovieDto> movies = queryBus.execute(new GetAllMoviesQuery());
         ctx.json(movies);
     }
 
@@ -56,7 +51,7 @@ public final class MovieController {
     public void getMovieById(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("id"));
 
-        MovieDto movie = getMovieHandler.execute(new GetMovieQuery(movieId))
+        MovieDto movie = queryBus.execute(new GetMovieQuery(movieId))
                 .orElseThrow(() -> new NoSuchMovieFoundException(
                         "Movie with ID " + movieId + " not found"
                 ));
@@ -79,7 +74,7 @@ public final class MovieController {
     )
     public void getScreeningsForMovie(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("movieId"));
-        List<ScreeningDto> screenings = getScreeningsForMovieHandler.execute(new GetScreeningsForMovieQuery(movieId));
+        List<ScreeningDto> screenings = queryBus.execute(new GetScreeningsForMovieQuery(movieId));
         ctx.json(screenings);
     }
 }

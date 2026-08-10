@@ -1,9 +1,7 @@
-package com.cinema.application.service;
+package com.cinema.application.handler;
 
-import com.cinema.application.mapping.ScreeningSeatMapper;
+import com.cinema.application.port.in.command.CommandHandler;
 import com.cinema.application.port.in.command.ReserveSeatCommand;
-import com.cinema.application.port.in.command.ReserveSeatUseCase;
-import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.Screening;
@@ -12,20 +10,20 @@ import java.time.Clock;
 import java.time.Duration;
 import java.util.Objects;
 
-public class ReserveSeatService implements ReserveSeatUseCase {
+public class ReserveSeatHandler implements CommandHandler<ReserveSeatCommand> {
 
     private final ScreeningRepository repository;
     private final Duration lockTimeout;
     private final Clock clock;
 
-    public ReserveSeatService(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
+    public ReserveSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
         this.repository = Objects.requireNonNull(repository);
         this.lockTimeout = Objects.requireNonNull(lockTimeout);
         this.clock = clock;
     }
 
     @Override
-    public ScreeningSeatDto handle(ReserveSeatCommand cmd) {
+    public void handle(ReserveSeatCommand cmd) {
         Objects.requireNonNull(cmd.screeningId());
         Objects.requireNonNull(cmd.screeningSeatId());
 
@@ -37,11 +35,5 @@ public class ReserveSeatService implements ReserveSeatUseCase {
         screening.reserveSeat(cmd.screeningSeatId(), lockTimeout, clock);
         repository.save(screening);
         screening.clearModifiedSeats();
-
-        return screening.getScreeningSeats().stream()
-                .filter(s -> s.getId().equals(cmd.screeningSeatId()))
-                .map(ScreeningSeatMapper::toDto)
-                .findFirst()
-                .orElseThrow();
     }
 }

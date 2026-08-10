@@ -1,5 +1,9 @@
 package com.cinema;
 
+import com.cinema.application.InMemoryCommandBus;
+import com.cinema.application.InMemoryQueryBus;
+import com.cinema.application.port.in.query.QueryBus;
+import com.cinema.application.port.in.command.CommandBus;
 import com.cinema.domain.exception.LockExpiredException;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
@@ -10,7 +14,7 @@ import com.cinema.infrastructure.config.AppConfig;
 import com.cinema.infrastructure.config.ControllerFactory;
 import com.cinema.infrastructure.config.DatabaseConfig;
 import com.cinema.infrastructure.config.RepositoryFactory;
-import com.cinema.infrastructure.config.ApplicationHandlerFactory;
+import com.cinema.infrastructure.config.ApplicationHandlersRegistration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.Javalin;
@@ -28,21 +32,19 @@ import java.util.Map;
 public final class Main {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    private Main() {
-    }
+    private Main() {}
 
     public static void main(String[] args) {
         Clock clock = Clock.systemDefaultZone();
         AppConfig appConfig = new AppConfig();
 
+        CommandBus commandBus = new InMemoryCommandBus();
+        QueryBus queryBus = new InMemoryQueryBus();
+
         Connection connection = DatabaseConfig.getConnection(appConfig);
         RepositoryFactory.Repositories repositories = RepositoryFactory.createRepositories(connection);
-        ApplicationHandlerFactory.ApplicationHandlers appHandlers = ApplicationHandlerFactory.createApplicationHandlers(
-                repositories,
-                appConfig.getLockTimeout(),
-                clock
-        );
-        ControllerFactory.Controllers controllers = ControllerFactory.createControllers(appHandlers);
+        ApplicationHandlersRegistration.registerApplicationHandlers(commandBus, queryBus, repositories, appConfig.getLockTimeout(), clock);
+        ControllerFactory.Controllers controllers = ControllerFactory.createControllers(commandBus, queryBus);
 
         Javalin app = createJavalinApp(appConfig);
 
