@@ -16,7 +16,7 @@ public class GetMoviesService implements GetMoviesHandler {
     }
 
     @Override
-    public List<MovieDto> getMovies() {
+    public List<MovieDto> execute() {
         return repository.getAll().stream()
                 .map(MovieMapper::toDto)
                 .toList();

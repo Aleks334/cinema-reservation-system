@@ -1,6 +1,7 @@
 package com.cinema.application.service;
 
 import com.cinema.application.mapping.ScreeningSeatMapper;
+import com.cinema.application.port.in.command.LockSeatCommand;
 import com.cinema.application.port.in.command.LockSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.application.port.out.ScreeningRepository;
@@ -26,21 +27,21 @@ public class LockSeatService implements LockSeatUseCase {
     }
 
     @Override
-    public ScreeningSeatDto lockSeat(ScreeningId screeningId, ScreeningSeatId seatId) {
-        Objects.requireNonNull(screeningId);
-        Objects.requireNonNull(seatId);
+    public ScreeningSeatDto handle(LockSeatCommand cmd) {
+        Objects.requireNonNull(cmd.screeningId());
+        Objects.requireNonNull(cmd.screeningSeatId());
 
-        Screening screening = repository.findById(screeningId)
+        Screening screening = repository.findById(cmd.screeningId())
                 .orElseThrow(() -> new ScreeningNotFoundException(
-                        "Screening with ID " + screeningId + " not found"
+                        "Screening with ID " + cmd.screeningId() + " not found"
                 ));
 
-        screening.lockSeat(seatId, lockTimeout, clock);
+        screening.lockSeat(cmd.screeningSeatId(), lockTimeout, clock);
         repository.save(screening);
         screening.clearModifiedSeats();
 
         return screening.getScreeningSeats().stream()
-                .filter(s -> s.getId().equals(seatId))
+                .filter(s -> s.getId().equals(cmd.screeningSeatId()))
                 .map(ScreeningSeatMapper::toDto)
                 .findFirst()
                 .orElseThrow();

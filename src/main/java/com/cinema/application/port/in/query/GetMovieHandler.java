@@ -5,5 +5,5 @@ import com.cinema.domain.model.vo.MovieId;
 import java.util.Optional;
 
 public interface GetMovieHandler {
-    Optional<MovieDto> getMovie(MovieId movieId);
+    Optional<MovieDto> execute(MovieId movieId);
 }

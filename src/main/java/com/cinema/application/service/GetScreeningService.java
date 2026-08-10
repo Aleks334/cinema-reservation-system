@@ -18,7 +18,7 @@ public class GetScreeningService implements GetScreeningHandler {
     }
 
     @Override
-    public Optional<ScreeningDto> getScreening(ScreeningId screeningId) {
+    public Optional<ScreeningDto> execute(ScreeningId screeningId) {
         Objects.requireNonNull(screeningId);
         return repository.findById(screeningId)
                 .map(ScreeningMapper::toDto);

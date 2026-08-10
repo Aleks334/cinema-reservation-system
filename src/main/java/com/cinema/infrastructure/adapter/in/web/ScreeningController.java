@@ -1,5 +1,7 @@
 package com.cinema.infrastructure.adapter.in.web;
 
+import com.cinema.application.port.in.command.LockSeatCommand;
+import com.cinema.application.port.in.command.ReserveSeatCommand;
 import com.cinema.application.port.in.query.GetScreeningHandler;
 import com.cinema.application.port.in.command.LockSeatUseCase;
 import com.cinema.application.port.in.command.ReserveSeatUseCase;
@@ -45,7 +47,7 @@ public final class ScreeningController {
     public void getScreeningById(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("id"));
 
-        ScreeningDto screening = getScreeningHandler.getScreening(screeningId)
+        ScreeningDto screening = getScreeningHandler.execute(screeningId)
                 .orElseThrow(() -> new ScreeningNotFoundException(
                         "Screening with ID " + screeningId + " not found"
                 ));
@@ -70,9 +72,9 @@ public final class ScreeningController {
     )
     public void lockSeat(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
-        ScreeningSeatId seatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
+        ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
 
-        ScreeningSeatDto updatedSeat = lockSeatUseCase.lockSeat(screeningId, seatId);
+        ScreeningSeatDto updatedSeat = lockSeatUseCase.handle(new LockSeatCommand(screeningId, screeningSeatId));
 
         ctx.status(200).json(updatedSeat);
     }
@@ -94,9 +96,9 @@ public final class ScreeningController {
     )
     public void reserveSeat(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
-        ScreeningSeatId seatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
+        ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
 
-        ScreeningSeatDto updatedSeat = reserveSeatUseCase.reserveSeat(screeningId, seatId);
+        ScreeningSeatDto updatedSeat = reserveSeatUseCase.handle(new ReserveSeatCommand(screeningId, screeningSeatId));
 
         ctx.status(200).json(updatedSeat);
     }

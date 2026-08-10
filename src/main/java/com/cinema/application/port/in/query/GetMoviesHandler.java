@@ -4,5 +4,5 @@ import com.cinema.application.port.in.dto.MovieDto;
 import java.util.List;
 
 public interface GetMoviesHandler {
-    List<MovieDto> getMovies();
+    List<MovieDto> execute();
 }

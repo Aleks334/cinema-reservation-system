@@ -18,7 +18,7 @@ public class GetMovieService implements GetMovieHandler {
     }
 
     @Override
-    public Optional<MovieDto> getMovie(MovieId movieId) {
+    public Optional<MovieDto> execute(MovieId movieId) {
         Objects.requireNonNull(movieId);
         return repository.findById(movieId)
                 .map(MovieMapper::toDto);

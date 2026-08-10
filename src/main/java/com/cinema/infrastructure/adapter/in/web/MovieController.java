@@ -38,7 +38,7 @@ public final class MovieController {
             }
     )
     public void getAllMovies(Context ctx) {
-        List<MovieDto> movies = getMoviesHandler.getMovies();
+        List<MovieDto> movies = getMoviesHandler.execute();
         ctx.json(movies);
     }
 
@@ -58,7 +58,7 @@ public final class MovieController {
     public void getMovieById(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("id"));
 
-        MovieDto movie = getMovieHandler.getMovie(movieId)
+        MovieDto movie = getMovieHandler.execute(movieId)
                 .orElseThrow(() -> new NoSuchMovieFoundException(
                         "Movie with ID " + movieId + " not found"
                 ));
@@ -81,7 +81,7 @@ public final class MovieController {
     )
     public void getScreeningsForMovie(Context ctx) {
         MovieId movieId = MovieId.from(ctx.pathParam("movieId"));
-        List<ScreeningDto> screenings = getScreeningsForMovieHandler.getScreeningsForMovie(movieId);
+        List<ScreeningDto> screenings = getScreeningsForMovieHandler.execute(movieId);
         ctx.json(screenings);
     }
 }

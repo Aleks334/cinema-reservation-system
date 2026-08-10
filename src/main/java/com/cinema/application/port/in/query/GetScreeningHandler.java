@@ -5,5 +5,5 @@ import com.cinema.domain.model.vo.ScreeningId;
 import java.util.Optional;
 
 public interface GetScreeningHandler {
-    Optional<ScreeningDto> getScreening(ScreeningId screeningId);
+    Optional<ScreeningDto> execute(ScreeningId screeningId);
 }

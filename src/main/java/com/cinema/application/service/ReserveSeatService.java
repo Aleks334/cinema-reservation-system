@@ -1,13 +1,12 @@
 package com.cinema.application.service;
 
 import com.cinema.application.mapping.ScreeningSeatMapper;
+import com.cinema.application.port.in.command.ReserveSeatCommand;
 import com.cinema.application.port.in.command.ReserveSeatUseCase;
 import com.cinema.application.port.in.dto.ScreeningSeatDto;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.Screening;
-import com.cinema.domain.model.vo.ScreeningId;
-import com.cinema.domain.model.vo.ScreeningSeatId;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -26,21 +25,21 @@ public class ReserveSeatService implements ReserveSeatUseCase {
     }
 
     @Override
-    public ScreeningSeatDto reserveSeat(ScreeningId screeningId, ScreeningSeatId seatId) {
-        Objects.requireNonNull(screeningId);
-        Objects.requireNonNull(seatId);
+    public ScreeningSeatDto handle(ReserveSeatCommand cmd) {
+        Objects.requireNonNull(cmd.screeningId());
+        Objects.requireNonNull(cmd.screeningSeatId());
 
-        Screening screening = repository.findById(screeningId)
+        Screening screening = repository.findById(cmd.screeningId())
                 .orElseThrow(() -> new ScreeningNotFoundException(
-                        "Screening with ID " + screeningId + " not found"
+                        "Screening with ID " + cmd.screeningId() + " not found"
                 ));
 
-        screening.reserveSeat(seatId, lockTimeout, clock);
+        screening.reserveSeat(cmd.screeningSeatId(), lockTimeout, clock);
         repository.save(screening);
         screening.clearModifiedSeats();
 
         return screening.getScreeningSeats().stream()
-                .filter(s -> s.getId().equals(seatId))
+                .filter(s -> s.getId().equals(cmd.screeningSeatId()))
                 .map(ScreeningSeatMapper::toDto)
                 .findFirst()
                 .orElseThrow();

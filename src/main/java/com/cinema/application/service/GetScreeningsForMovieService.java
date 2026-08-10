@@ -18,7 +18,7 @@ public class GetScreeningsForMovieService implements GetScreeningsForMovieHandle
     }
 
     @Override
-    public List<ScreeningDto> getScreeningsForMovie(MovieId movieId) {
+    public List<ScreeningDto> execute(MovieId movieId) {
         Objects.requireNonNull(movieId);
         return repository.findByMovieId(movieId).stream()
                 .map(ScreeningMapper::toDto)
