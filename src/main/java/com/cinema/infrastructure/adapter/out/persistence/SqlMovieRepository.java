@@ -37,8 +37,11 @@ public final class SqlMovieRepository implements MovieRepository {
     }
 
     private void loadAllMoviesIntoCache(Connection conn) {
-        String sql = "SELECT id, title, director_first_name, director_last_name, "
-                + "description, genre, duration_minutes FROM movies";
+        String sql = """
+                      SELECT id, title, director_first_name, director_last_name,
+                             description, genre, duration_minutes
+                      FROM movies;
+                      """;
 
         try (var stmt = conn.createStatement();
              var rs = stmt.executeQuery(sql)) {

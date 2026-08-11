@@ -50,7 +50,10 @@ public final class SqlCinemaRepository implements CinemaRepository {
     }
 
     private void loadSeats(Connection conn, Map<UUID, List<Seat>> roomSeats) throws SQLException {
-        String sql = "SELECT room_id, row, number, seat_type FROM seats";
+        String sql = """
+                      SELECT room_id, row, number, seat_type
+                      FROM seats;
+                      """;
 
         try (var stmt = conn.createStatement();
              var rs = stmt.executeQuery(sql)) {
@@ -70,7 +73,10 @@ public final class SqlCinemaRepository implements CinemaRepository {
 
     private void loadRooms(Connection conn, Map<UUID, List<Room>> cinemaRooms,
                            Map<UUID, List<Seat>> roomSeats) throws SQLException {
-        String sql = "SELECT id, cinema_id, number FROM rooms";
+        String sql = """
+                      SELECT id, cinema_id, number
+                      FROM rooms;
+                      """;
 
         try (var stmt = conn.createStatement();
              var rs = stmt.executeQuery(sql)) {
@@ -92,7 +98,10 @@ public final class SqlCinemaRepository implements CinemaRepository {
 
     private void loadCinemas(Connection conn, Map<UUID, Cinema> cinemas,
                              Map<UUID, List<Room>> cinemaRooms) throws SQLException {
-        String sql = "SELECT id, name FROM cinemas";
+        String sql = """
+                      SELECT id, name
+                      FROM cinemas;
+                      """;
 
         try (var stmt = conn.createStatement();
              var rs = stmt.executeQuery(sql)) {

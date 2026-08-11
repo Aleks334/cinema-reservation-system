@@ -32,12 +32,14 @@ public final class SqlScreeningRepository implements ScreeningRepository {
 
     @Override
     public Optional<Screening> findById(ScreeningId screeningId) {
-        String sql = "SELECT s.id, s.movie_id, s.room_id, s.start_date_time, "
-                + "ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type, "
-                + "ss.status, ss.locked_at, ss.version "
-                + "FROM screenings s "
-                + "LEFT JOIN screening_seats ss ON s.id = ss.screening_id "
-                + "WHERE s.id = ?";
+        String sql = """
+                      SELECT s.id, s.movie_id, s.room_id, s.start_date_time,
+                             ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type,
+                             ss.status, ss.locked_at, ss.version
+                      FROM screenings s
+                      LEFT JOIN screening_seats ss ON s.id = ss.screening_id
+                      WHERE s.id = ?;
+                      """;
 
         try (var stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, screeningId.toString());
@@ -52,13 +54,15 @@ public final class SqlScreeningRepository implements ScreeningRepository {
 
     @Override
     public List<Screening> findByMovieId(MovieId movieId) {
-        String sql = "SELECT s.id, s.movie_id, s.room_id, s.start_date_time, "
-                + "ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type, "
-                + "ss.status, ss.locked_at, ss.version "
-                + "FROM screenings s "
-                + "LEFT JOIN screening_seats ss ON s.id = ss.screening_id "
-                + "WHERE s.movie_id = ? "
-                + "ORDER BY s.start_date_time";
+        String sql = """
+                      SELECT s.id, s.movie_id, s.room_id, s.start_date_time,
+                          ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type,
+                          ss.status, ss.locked_at, ss.version
+                      FROM screenings s
+                      LEFT JOIN screening_seats ss ON s.id = ss.screening_id
+                      WHERE s.movie_id = ?
+                      ORDER BY s.start_date_time;
+                      """;
 
         try (var stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, movieId.toString());
@@ -100,8 +104,11 @@ public final class SqlScreeningRepository implements ScreeningRepository {
             return;
         }
 
-        String sql = "UPDATE screening_seats SET status = ?, locked_at = ?, "
-                + "version = version + 1 WHERE id = ? AND version = ?";
+        String sql = """
+                      UPDATE screening_seats
+                      SET status = ?, locked_at = ?, version = version + 1
+                      WHERE id = ? AND version = ?;
+                      """;
 
         try (var stmt = connection.prepareStatement(sql)) {
             for (ScreeningSeat seat : modifiedSeats) {
