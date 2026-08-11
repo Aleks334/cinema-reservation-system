@@ -1,15 +1,12 @@
 package com.cinema.infrastructure.adapter.out.persistence;
 
 import com.cinema.application.port.out.MovieRepository;
-import com.cinema.domain.model.MovieGenre;
-import com.cinema.domain.model.vo.Director;
-import com.cinema.domain.model.vo.MovieDuration;
 import com.cinema.domain.model.Movie;
 import com.cinema.domain.model.vo.MovieId;
+import com.cinema.infrastructure.adapter.out.persistence.mapping.MovieMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +44,7 @@ public final class SqlMovieRepository implements MovieRepository {
              var rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
-                Movie movie = mapToMovie(rs);
+                Movie movie = MovieMapper.toMovie(rs);
                 cache.put(movie.getId().value(), movie);
             }
 
@@ -55,19 +52,5 @@ public final class SqlMovieRepository implements MovieRepository {
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load movies from database", e);
         }
-    }
-
-    private Movie mapToMovie(ResultSet rs) throws SQLException {
-        return new Movie(
-                MovieId.from(rs.getString("id")),
-                rs.getString("title"),
-                new Director(
-                        rs.getString("director_first_name"),
-                        rs.getString("director_last_name")
-                ),
-                rs.getString("description"),
-                MovieGenre.fromDisplayName(rs.getString("genre")),
-                MovieDuration.ofMinutes(rs.getInt("duration_minutes"))
-        );
     }
 }

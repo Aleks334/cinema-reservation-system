@@ -3,22 +3,14 @@ package com.cinema.infrastructure.adapter.out.persistence;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
 import com.cinema.domain.model.vo.MovieId;
-import com.cinema.domain.model.vo.RoomId;
 import com.cinema.domain.model.Screening;
 import com.cinema.domain.model.vo.ScreeningId;
 import com.cinema.domain.model.ScreeningSeat;
-import com.cinema.domain.model.vo.ScreeningSeatId;
-import com.cinema.domain.model.vo.Seat;
-import com.cinema.domain.model.SeatStatus;
-import com.cinema.domain.model.SeatType;
+import com.cinema.infrastructure.adapter.out.persistence.mapping.ScreeningMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.Instant;
-import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,7 +37,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
             stmt.setString(1, screeningId.toString());
 
             try (var rs = stmt.executeQuery()) {
-                return mapToScreening(rs);
+                return ScreeningMapper.toScreening(rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load screening: " + screeningId, e);
@@ -68,7 +60,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
             stmt.setString(1, movieId.toString());
 
             try (var rs = stmt.executeQuery()) {
-                return mapToScreenings(rs);
+                return ScreeningMapper.toScreenings(rs);
             }
         } catch (SQLException e) {
             throw new RuntimeException("Failed to load screenings for movie: " + movieId, e);
@@ -143,83 +135,5 @@ public final class SqlScreeningRepository implements ScreeningRepository {
         } catch (SQLException e) {
             LOGGER.error("Failed to rollback transaction", e);
         }
-    }
-
-    private Optional<Screening> mapToScreening(ResultSet rs) throws SQLException {
-        if (!rs.next()) {
-            return Optional.empty();
-        }
-
-        ScreeningId screeningId = ScreeningId.from(rs.getString("id"));
-        MovieId movieId = MovieId.from(rs.getString("movie_id"));
-        RoomId roomId = RoomId.from(rs.getString("room_id"));
-        ZonedDateTime startDateTime = ZonedDateTime.parse(rs.getString("start_date_time"));
-
-        List<ScreeningSeat> seats = new ArrayList<>();
-
-        do {
-            String seatId = rs.getString("seat_id");
-            if (seatId != null) {
-                seats.add(mapToScreeningSeat(rs));
-            }
-        } while (rs.next());
-
-        return Optional.of(new Screening(screeningId, movieId, roomId, startDateTime, seats));
-    }
-
-    private List<Screening> mapToScreenings(ResultSet rs) throws SQLException {
-        List<Screening> screenings = new ArrayList<>();
-        Screening currentScreening = null;
-        List<ScreeningSeat> currentSeats = new ArrayList<>();
-
-        while (rs.next()) {
-            String screeningIdStr = rs.getString("id");
-            ScreeningId screeningId = ScreeningId.from(screeningIdStr);
-
-            if (currentScreening == null || !currentScreening.getId().equals(screeningId)) {
-                if (currentScreening != null) {
-                    screenings.add(currentScreening);
-                }
-
-                currentSeats = new ArrayList<>();
-                currentScreening = new Screening(
-                        screeningId,
-                        MovieId.from(rs.getString("movie_id")),
-                        RoomId.from(rs.getString("room_id")),
-                        ZonedDateTime.parse(rs.getString("start_date_time")),
-                        currentSeats
-                );
-            }
-
-            String seatId = rs.getString("seat_id");
-            if (seatId != null) {
-                currentSeats.add(mapToScreeningSeat(rs));
-            }
-        }
-
-        if (currentScreening != null) {
-            screenings.add(currentScreening);
-        }
-
-        return screenings;
-    }
-
-    private ScreeningSeat mapToScreeningSeat(ResultSet rs) throws SQLException {
-        Seat seat = new Seat(
-                rs.getString("seat_row"),
-                rs.getString("seat_number"),
-                SeatType.valueOf(rs.getString("seat_type"))
-        );
-
-        String lockedAtStr = rs.getString("locked_at");
-        Instant lockedAt = lockedAtStr != null ? Instant.parse(lockedAtStr) : null;
-
-        return new ScreeningSeat(
-                ScreeningSeatId.from(rs.getString("seat_id")),
-                seat,
-                SeatStatus.valueOf(rs.getString("status")),
-                lockedAt,
-                rs.getInt("version")
-        );
     }
 }
