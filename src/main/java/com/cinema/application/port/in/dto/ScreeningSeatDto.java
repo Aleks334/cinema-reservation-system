@@ -1,5 +1,7 @@
 package com.cinema.application.port.in.dto;
 
+import com.cinema.domain.model.ScreeningSeat;
+
 public record ScreeningSeatDto(
         String id,
         String row,
@@ -7,4 +9,14 @@ public record ScreeningSeatDto(
         String seatType,
         String status
 ) {
+
+    public static ScreeningSeatDto of(ScreeningSeat seat) {
+        return new ScreeningSeatDto(
+                seat.getId().toString(),
+                seat.getSeat().row(),
+                seat.getSeat().number(),
+                seat.getSeat().seatType().name(),
+                seat.getStatus().name()
+        );
+    }
 }

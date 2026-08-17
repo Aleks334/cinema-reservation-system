@@ -1,4 +1,4 @@
-package com.cinema.application.mapping;
+package com.cinema.application.port.in.dto;
 
 import java.time.format.DateTimeFormatter;
 

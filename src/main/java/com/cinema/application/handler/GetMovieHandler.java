@@ -1,6 +1,5 @@
 package com.cinema.application.handler;
 
-import com.cinema.application.mapping.MovieMapper;
 import com.cinema.application.port.in.dto.MovieDto;
 import com.cinema.application.port.in.query.GetMovieQuery;
 import com.cinema.application.port.in.query.QueryHandler;
@@ -22,6 +21,6 @@ public class GetMovieHandler implements QueryHandler<GetMovieQuery, Optional<Mov
         Objects.requireNonNull(query.movieId());
 
         return repository.findById(query.movieId())
-                .map(MovieMapper::toDto);
+                .map(MovieDto::of);
     }
 }

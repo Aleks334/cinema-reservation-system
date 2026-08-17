@@ -1,6 +1,5 @@
 package com.cinema.application.handler;
 
-import com.cinema.application.mapping.ScreeningMapper;
 import com.cinema.application.port.in.dto.ScreeningDto;
 import com.cinema.application.port.in.query.GetScreeningsForMovieQuery;
 import com.cinema.application.port.in.query.QueryHandler;
@@ -21,7 +20,7 @@ public class GetScreeningsForMovieHandler implements QueryHandler<GetScreeningsF
     public List<ScreeningDto> handle(GetScreeningsForMovieQuery query) {
         Objects.requireNonNull(query.movieId());
         return repository.findByMovieId(query.movieId()).stream()
-                .map(ScreeningMapper::toDto)
+                .map(ScreeningDto::of)
                 .toList();
     }
 }

@@ -1,5 +1,7 @@
 package com.cinema.application.port.in.dto;
 
+import com.cinema.domain.model.Movie;
+
 public record MovieDto(
         String id,
         String title,
@@ -8,4 +10,15 @@ public record MovieDto(
         String genre,
         int durationMinutes
 ) {
+
+    public static MovieDto of(Movie movie) {
+        return new MovieDto(
+                movie.getId().toString(),
+                movie.getTitle(),
+                movie.getDirector().getFullName(),
+                movie.getDescription(),
+                movie.getGenre().toString(),
+                movie.getDuration().totalMinutes()
+        );
+    }
 }
