@@ -1,6 +1,6 @@
 package com.cinema.application.dto;
 
-import com.cinema.domain.model.Screening;
+import com.cinema.domain.model.ticketing.Screening;
 
 import java.util.List;
 

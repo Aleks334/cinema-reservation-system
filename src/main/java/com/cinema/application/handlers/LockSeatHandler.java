@@ -4,7 +4,7 @@ import com.cinema.application.port.in.command.CommandHandler;
 import com.cinema.application.port.in.command.LockSeatCommand;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
-import com.cinema.domain.model.Screening;
+import com.cinema.domain.model.ticketing.Screening;
 
 import java.time.Clock;
 import java.time.Duration;

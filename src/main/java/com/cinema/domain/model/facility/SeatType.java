@@ -1,4 +1,4 @@
-package com.cinema.domain.model;
+package com.cinema.domain.model.facility;
 
 public enum SeatType {
     BASIC,

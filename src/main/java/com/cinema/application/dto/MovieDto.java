@@ -1,6 +1,6 @@
 package com.cinema.application.dto;
 
-import com.cinema.domain.model.Movie;
+import com.cinema.domain.model.catalog.Movie;
 
 public record MovieDto(
         String id,

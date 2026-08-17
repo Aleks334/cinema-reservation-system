@@ -1,6 +1,6 @@
 package com.cinema.application.dto;
 
-import com.cinema.domain.model.ScreeningSeat;
+import com.cinema.domain.model.ticketing.ScreeningSeat;
 
 public record ScreeningSeatDto(
         String id,

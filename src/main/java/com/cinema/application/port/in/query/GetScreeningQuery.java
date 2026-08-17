@@ -1,7 +1,7 @@
 package com.cinema.application.port.in.query;
 
 import com.cinema.application.dto.ScreeningDto;
-import com.cinema.domain.model.vo.ScreeningId;
+import com.cinema.domain.model.ticketing.ScreeningId;
 
 import java.util.Optional;
 

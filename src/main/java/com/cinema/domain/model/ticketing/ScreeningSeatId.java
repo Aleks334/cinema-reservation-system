@@ -1,4 +1,4 @@
-package com.cinema.domain.model.vo;
+package com.cinema.domain.model.ticketing;
 
 import java.util.Objects;
 import java.util.UUID;

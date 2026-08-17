@@ -1,9 +1,8 @@
-package com.cinema.domain.model;
+package com.cinema.domain.model.ticketing;
 
 import com.cinema.domain.exception.SeatAlreadyLockedException;
 import com.cinema.domain.exception.SeatNotAvailableException;
-import com.cinema.domain.model.vo.ScreeningSeatId;
-import com.cinema.domain.model.vo.Seat;
+import com.cinema.domain.model.facility.Seat;
 
 import java.time.Clock;
 import java.time.Duration;

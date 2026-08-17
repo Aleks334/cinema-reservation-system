@@ -1,10 +1,10 @@
 package com.cinema.infrastructure.adapter.out.persistence.mapping;
 
-import com.cinema.domain.model.Screening;
-import com.cinema.domain.model.ScreeningSeat;
-import com.cinema.domain.model.SeatStatus;
-import com.cinema.domain.model.SeatType;
-import com.cinema.domain.model.vo.*;
+import com.cinema.domain.model.ticketing.*;
+import com.cinema.domain.model.catalog.MovieId;
+import com.cinema.domain.model.facility.RoomId;
+import com.cinema.domain.model.facility.Seat;
+import com.cinema.domain.model.facility.SeatType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

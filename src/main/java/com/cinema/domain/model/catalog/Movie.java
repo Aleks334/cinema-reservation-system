@@ -1,8 +1,4 @@
-package com.cinema.domain.model;
-
-import com.cinema.domain.model.vo.Director;
-import com.cinema.domain.model.vo.MovieDuration;
-import com.cinema.domain.model.vo.MovieId;
+package com.cinema.domain.model.catalog;
 
 import java.util.Objects;
 

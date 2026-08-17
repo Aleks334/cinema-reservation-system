@@ -1,7 +1,9 @@
 package com.cinema.domain.model;
 
-import com.cinema.domain.model.vo.CinemaId;
-import com.cinema.domain.model.vo.RoomId;
+import com.cinema.domain.model.facility.Cinema;
+import com.cinema.domain.model.facility.CinemaId;
+import com.cinema.domain.model.facility.Room;
+import com.cinema.domain.model.facility.RoomId;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

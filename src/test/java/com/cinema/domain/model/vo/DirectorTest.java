@@ -1,5 +1,6 @@
 package com.cinema.domain.model.vo;
 
+import com.cinema.domain.model.catalog.Director;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

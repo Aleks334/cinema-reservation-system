@@ -1,11 +1,7 @@
-package com.cinema.domain.model;
-
-import com.cinema.domain.model.vo.CinemaId;
-import com.cinema.domain.model.vo.RoomId;
+package com.cinema.domain.model.facility;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public final class Cinema {
     private final CinemaId id;

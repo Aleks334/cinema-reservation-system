@@ -1,6 +1,8 @@
 package com.cinema.domain.model;
 
-import com.cinema.domain.model.vo.MovieId;
+import com.cinema.domain.model.catalog.Movie;
+import com.cinema.domain.model.catalog.MovieGenre;
+import com.cinema.domain.model.catalog.MovieId;
 import org.junit.jupiter.api.Test;
 
 import static com.cinema.domain.model.fixtures.MovieFixture.*;

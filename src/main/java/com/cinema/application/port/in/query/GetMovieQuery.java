@@ -1,7 +1,7 @@
 package com.cinema.application.port.in.query;
 
 import com.cinema.application.dto.MovieDto;
-import com.cinema.domain.model.vo.MovieId;
+import com.cinema.domain.model.catalog.MovieId;
 
 import java.util.Optional;
 

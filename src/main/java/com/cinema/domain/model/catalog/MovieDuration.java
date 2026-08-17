@@ -1,4 +1,4 @@
-package com.cinema.domain.model.vo;
+package com.cinema.domain.model.catalog;
 
 import com.cinema.domain.exception.InvalidDurationException;
 

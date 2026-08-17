@@ -1,6 +1,4 @@
-package com.cinema.domain.model.vo;
-
-import com.cinema.domain.model.SeatType;
+package com.cinema.domain.model.facility;
 
 import java.util.Objects;
 import java.util.regex.Pattern;

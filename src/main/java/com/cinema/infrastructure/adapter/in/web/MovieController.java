@@ -4,7 +4,7 @@ import com.cinema.application.port.in.query.*;
 import com.cinema.application.dto.MovieDto;
 import com.cinema.application.dto.ScreeningDto;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
-import com.cinema.domain.model.vo.MovieId;
+import com.cinema.domain.model.catalog.MovieId;
 import io.javalin.http.Context;
 import io.javalin.openapi.HttpMethod;
 import io.javalin.openapi.OpenApi;

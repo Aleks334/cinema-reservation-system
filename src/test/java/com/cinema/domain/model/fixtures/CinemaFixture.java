@@ -1,12 +1,10 @@
 package com.cinema.domain.model.fixtures;
 
-import com.cinema.domain.model.Cinema;
-import com.cinema.domain.model.Room;
-import com.cinema.domain.model.vo.CinemaId;
-import com.cinema.domain.model.vo.RoomId;
+import com.cinema.domain.model.facility.Cinema;
+import com.cinema.domain.model.facility.Room;
+import com.cinema.domain.model.facility.CinemaId;
 
 import java.util.List;
-import java.util.stream.IntStream;
 
 public class CinemaFixture {
 

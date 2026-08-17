@@ -1,8 +1,6 @@
-package com.cinema.domain.model;
+package com.cinema.domain.model.facility;
 
 import com.cinema.domain.exception.NoSuchSeatFoundException;
-import com.cinema.domain.model.vo.RoomId;
-import com.cinema.domain.model.vo.Seat;
 
 import java.util.List;
 import java.util.Objects;
