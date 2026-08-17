@@ -1,4 +1,4 @@
-package com.cinema.domain.model.vo;
+package com.cinema.domain.model;
 
 import com.cinema.domain.model.facility.Seat;
 import com.cinema.domain.model.facility.SeatType;
