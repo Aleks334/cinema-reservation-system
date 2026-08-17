@@ -10,7 +10,7 @@ public final class ControllerFactory {
     private ControllerFactory() {
     }
 
-    public static Controllers createControllers(CommandBus commandBus, QueryBus queryBus) {
+    public static Controllers create(CommandBus commandBus, QueryBus queryBus) {
         return new Controllers(
                 new MovieController(queryBus),
                 new ScreeningController(commandBus, queryBus)

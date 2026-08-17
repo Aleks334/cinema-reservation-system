@@ -10,11 +10,7 @@ import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLoc
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.exception.SeatAlreadyLockedException;
 import com.cinema.domain.exception.SeatNotAvailableException;
-import com.cinema.infrastructure.config.AppConfig;
-import com.cinema.infrastructure.config.ControllerFactory;
-import com.cinema.infrastructure.config.DatabaseConfig;
-import com.cinema.infrastructure.config.RepositoryFactory;
-import com.cinema.infrastructure.config.ApplicationHandlersRegistration;
+import com.cinema.infrastructure.config.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.Javalin;
@@ -42,9 +38,9 @@ public final class Main {
         QueryBus queryBus = new InMemoryQueryBus();
 
         Connection connection = DatabaseConfig.getConnection(appConfig);
-        RepositoryFactory.Repositories repositories = RepositoryFactory.createRepositories(connection);
-        ApplicationHandlersRegistration.registerApplicationHandlers(commandBus, queryBus, repositories, appConfig.getLockTimeout(), clock);
-        ControllerFactory.Controllers controllers = ControllerFactory.createControllers(commandBus, queryBus);
+        RepositoryFactory.Repositories repositories = RepositoryFactory.create(connection);
+        ApplicationHandlersRegistrar.register(commandBus, queryBus, repositories, appConfig.getLockTimeout(), clock);
+        ControllerFactory.Controllers controllers = ControllerFactory.create(commandBus, queryBus);
 
         Javalin app = createJavalinApp(appConfig);
 

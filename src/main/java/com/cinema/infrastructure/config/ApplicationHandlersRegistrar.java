@@ -14,11 +14,11 @@ import com.cinema.application.port.in.query.*;
 import java.time.Clock;
 import java.time.Duration;
 
-public final class ApplicationHandlersRegistration {
+public final class ApplicationHandlersRegistrar {
 
-    private ApplicationHandlersRegistration() {}
+    private ApplicationHandlersRegistrar() {}
 
-    public static void registerApplicationHandlers(
+    public static void register(
             CommandBus commandBus,
             QueryBus queryBus,
             RepositoryFactory.Repositories repositories,
