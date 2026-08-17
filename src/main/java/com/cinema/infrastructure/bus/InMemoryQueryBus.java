@@ -1,4 +1,4 @@
-package com.cinema.application;
+package com.cinema.infrastructure.bus;
 
 import com.cinema.application.port.in.query.Query;
 import com.cinema.application.port.in.query.QueryBus;

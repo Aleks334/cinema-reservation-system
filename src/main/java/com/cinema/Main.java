@@ -1,7 +1,7 @@
 package com.cinema;
 
-import com.cinema.application.InMemoryCommandBus;
-import com.cinema.application.InMemoryQueryBus;
+import com.cinema.infrastructure.bus.InMemoryCommandBus;
+import com.cinema.infrastructure.bus.InMemoryQueryBus;
 import com.cinema.application.port.in.query.QueryBus;
 import com.cinema.application.port.in.command.CommandBus;
 import com.cinema.domain.exception.LockExpiredException;
