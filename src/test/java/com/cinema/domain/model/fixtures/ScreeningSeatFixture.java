@@ -1,10 +1,10 @@
 package com.cinema.domain.model.fixtures;
 
-import com.cinema.domain.model.ScreeningSeat;
-import com.cinema.domain.model.SeatStatus;
-import com.cinema.domain.model.SeatType;
-import com.cinema.domain.model.vo.ScreeningSeatId;
-import com.cinema.domain.model.vo.Seat;
+import com.cinema.domain.model.ticketing.ScreeningSeat;
+import com.cinema.domain.model.ticketing.ScreeningSeatStatus;
+import com.cinema.domain.model.facility.SeatType;
+import com.cinema.domain.model.ticketing.ScreeningSeatId;
+import com.cinema.domain.model.facility.Seat;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -21,7 +21,7 @@ public class ScreeningSeatFixture {
         return new ScreeningSeat(
                 ScreeningSeatId.generate(),
                 new Seat(row, num, SeatType.BASIC),
-                SeatStatus.AVAILABLE,
+                ScreeningSeatStatus.AVAILABLE,
                 null,
                 1
         );

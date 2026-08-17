@@ -1,8 +1,8 @@
 package com.cinema.domain.model.fixtures;
 
-import com.cinema.domain.model.Room;
-import com.cinema.domain.model.vo.RoomId;
-import com.cinema.domain.model.vo.Seat;
+import com.cinema.domain.model.facility.Room;
+import com.cinema.domain.model.facility.RoomId;
+import com.cinema.domain.model.facility.Seat;
 
 import java.util.List;
 

@@ -1,7 +1,7 @@
 package com.cinema.domain.model.fixtures;
 
-import com.cinema.domain.model.SeatType;
-import com.cinema.domain.model.vo.Seat;
+import com.cinema.domain.model.facility.SeatType;
+import com.cinema.domain.model.facility.Seat;
 
 import java.util.ArrayList;
 import java.util.List;

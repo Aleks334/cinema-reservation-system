@@ -1,7 +1,7 @@
 package com.cinema.application.port.out;
 
-import com.cinema.domain.model.Cinema;
-import com.cinema.domain.model.vo.CinemaId;
+import com.cinema.domain.model.facility.Cinema;
+import com.cinema.domain.model.facility.CinemaId;
 
 import java.util.Optional;
 

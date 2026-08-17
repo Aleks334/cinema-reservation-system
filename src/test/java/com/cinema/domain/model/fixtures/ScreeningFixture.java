@@ -1,10 +1,10 @@
 package com.cinema.domain.model.fixtures;
 
-import com.cinema.domain.model.Screening;
-import com.cinema.domain.model.ScreeningSeat;
-import com.cinema.domain.model.vo.MovieId;
-import com.cinema.domain.model.vo.RoomId;
-import com.cinema.domain.model.vo.ScreeningId;
+import com.cinema.domain.model.ticketing.Screening;
+import com.cinema.domain.model.ticketing.ScreeningSeat;
+import com.cinema.domain.model.catalog.MovieId;
+import com.cinema.domain.model.facility.RoomId;
+import com.cinema.domain.model.ticketing.ScreeningId;
 
 import java.time.*;
 import java.util.List;

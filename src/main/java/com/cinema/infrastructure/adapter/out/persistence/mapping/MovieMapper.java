@@ -1,10 +1,10 @@
 package com.cinema.infrastructure.adapter.out.persistence.mapping;
 
-import com.cinema.domain.model.Movie;
-import com.cinema.domain.model.MovieGenre;
-import com.cinema.domain.model.vo.Director;
-import com.cinema.domain.model.vo.MovieDuration;
-import com.cinema.domain.model.vo.MovieId;
+import com.cinema.domain.model.catalog.Movie;
+import com.cinema.domain.model.catalog.MovieGenre;
+import com.cinema.domain.model.catalog.Director;
+import com.cinema.domain.model.catalog.MovieDuration;
+import com.cinema.domain.model.catalog.MovieId;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

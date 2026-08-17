@@ -7,10 +7,9 @@ import java.sql.Connection;
 
 public final class RepositoryFactory {
 
-    private RepositoryFactory() {
-    }
+    private RepositoryFactory() {}
 
-    public static Repositories createRepositories(Connection connection) {
+    public static Repositories create(Connection connection) {
         return new Repositories(
                 new SqlMovieRepository(connection),
                 new SqlCinemaRepository(connection),

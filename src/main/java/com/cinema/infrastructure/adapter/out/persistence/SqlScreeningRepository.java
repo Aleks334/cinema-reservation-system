@@ -2,10 +2,10 @@ package com.cinema.infrastructure.adapter.out.persistence;
 
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
-import com.cinema.domain.model.vo.MovieId;
-import com.cinema.domain.model.Screening;
-import com.cinema.domain.model.vo.ScreeningId;
-import com.cinema.domain.model.ScreeningSeat;
+import com.cinema.domain.model.catalog.MovieId;
+import com.cinema.domain.model.ticketing.Screening;
+import com.cinema.domain.model.ticketing.ScreeningId;
+import com.cinema.domain.model.ticketing.ScreeningSeat;
 import com.cinema.infrastructure.adapter.out.persistence.mapping.ScreeningMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,12 +1,12 @@
 package com.cinema.infrastructure.adapter.out.persistence;
 
 import com.cinema.application.port.out.CinemaRepository;
-import com.cinema.domain.model.Cinema;
-import com.cinema.domain.model.vo.CinemaId;
-import com.cinema.domain.model.Room;
-import com.cinema.domain.model.vo.RoomId;
-import com.cinema.domain.model.vo.Seat;
-import com.cinema.domain.model.SeatType;
+import com.cinema.domain.model.facility.Cinema;
+import com.cinema.domain.model.facility.CinemaId;
+import com.cinema.domain.model.facility.Room;
+import com.cinema.domain.model.facility.RoomId;
+import com.cinema.domain.model.facility.Seat;
+import com.cinema.domain.model.facility.SeatType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.Connection;

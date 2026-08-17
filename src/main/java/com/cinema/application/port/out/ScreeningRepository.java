@@ -1,8 +1,8 @@
 package com.cinema.application.port.out;
 
-import com.cinema.domain.model.Screening;
-import com.cinema.domain.model.vo.MovieId;
-import com.cinema.domain.model.vo.ScreeningId;
+import com.cinema.domain.model.ticketing.Screening;
+import com.cinema.domain.model.catalog.MovieId;
+import com.cinema.domain.model.ticketing.ScreeningId;
 
 import java.util.List;
 import java.util.Optional;

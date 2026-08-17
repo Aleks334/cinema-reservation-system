@@ -2,6 +2,7 @@ package com.cinema.domain.model;
 
 import com.cinema.domain.exception.SeatAlreadyLockedException;
 import com.cinema.domain.exception.SeatNotAvailableException;
+import com.cinema.domain.model.ticketing.ScreeningSeat;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
@@ -110,7 +111,7 @@ class ScreeningSeatTest {
         seat.reserve(TIMEOUT, FIXED_CLOCK);
 
         // when & then
-        assertThatThrownBy(() -> seat.release())
+        assertThatThrownBy(seat::release)
                 .isInstanceOf(SeatNotAvailableException.class)
                 .hasMessageContaining("Only locked seats can be released");
     }

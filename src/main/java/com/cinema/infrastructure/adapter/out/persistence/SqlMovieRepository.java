@@ -1,8 +1,8 @@
 package com.cinema.infrastructure.adapter.out.persistence;
 
 import com.cinema.application.port.out.MovieRepository;
-import com.cinema.domain.model.Movie;
-import com.cinema.domain.model.vo.MovieId;
+import com.cinema.domain.model.catalog.Movie;
+import com.cinema.domain.model.catalog.MovieId;
 import com.cinema.infrastructure.adapter.out.persistence.mapping.MovieMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
