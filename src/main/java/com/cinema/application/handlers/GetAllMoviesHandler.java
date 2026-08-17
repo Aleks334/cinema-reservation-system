@@ -1,4 +1,4 @@
-package com.cinema.application.handler;
+package com.cinema.application.handlers;
 
 import com.cinema.application.dto.MovieDto;
 import com.cinema.application.port.in.query.GetAllMoviesQuery;
