@@ -89,7 +89,7 @@ public final class ScreeningMapper {
         return new ScreeningSeat(
                 ScreeningSeatId.from(rs.getString("seat_id")),
                 seat,
-                SeatStatus.valueOf(rs.getString("status")),
+                ScreeningSeatStatus.valueOf(rs.getString("status")),
                 lockedAt,
                 rs.getInt("version")
         );

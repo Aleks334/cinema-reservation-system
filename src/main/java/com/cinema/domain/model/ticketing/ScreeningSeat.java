@@ -12,14 +12,14 @@ import java.util.Objects;
 public final class ScreeningSeat {
     private final ScreeningSeatId id;
     private final Seat seat;
-    private SeatStatus status;
+    private ScreeningSeatStatus status;
     private Instant lockedAt;
     private int version;
 
     public ScreeningSeat(
             ScreeningSeatId id,
             Seat seat,
-            SeatStatus status,
+            ScreeningSeatStatus status,
             Instant lockedAt,
             int version
     ) {
@@ -40,7 +40,7 @@ public final class ScreeningSeat {
             throw new SeatAlreadyLockedException("Seat is not available for locking (Current status: " + status + ")");
         }
 
-        this.status = SeatStatus.LOCKED;
+        this.status = ScreeningSeatStatus.LOCKED;
         this.lockedAt = Instant.now(clock);
     }
 
@@ -62,7 +62,7 @@ public final class ScreeningSeat {
             throw new SeatNotAvailableException("Lock for seat " + seat.getSeatPosition() + " has expired");
         }
 
-        this.status = SeatStatus.RESERVED;
+        this.status = ScreeningSeatStatus.RESERVED;
         this.lockedAt = null;
     }
 
@@ -71,7 +71,7 @@ public final class ScreeningSeat {
             throw new SeatNotAvailableException("Only locked seats can be released");
         }
 
-        this.status = SeatStatus.AVAILABLE;
+        this.status = ScreeningSeatStatus.AVAILABLE;
         this.lockedAt = null;
     }
 
@@ -89,7 +89,7 @@ public final class ScreeningSeat {
         return seat;
     }
 
-    public SeatStatus getStatus() {
+    public ScreeningSeatStatus getStatus() {
         return status;
     }
 
@@ -105,21 +105,21 @@ public final class ScreeningSeat {
     }
 
     public boolean isAvailable() {
-        return status == SeatStatus.AVAILABLE;
+        return status == ScreeningSeatStatus.AVAILABLE;
     }
     public boolean isLocked() {
-        return status == SeatStatus.LOCKED;
+        return status == ScreeningSeatStatus.LOCKED;
     }
     public boolean isReserved() {
-        return status == SeatStatus.RESERVED;
+        return status == ScreeningSeatStatus.RESERVED;
     }
 
 
     private void validateState() {
-        if (status == SeatStatus.LOCKED && lockedAt == null) {
+        if (status == ScreeningSeatStatus.LOCKED && lockedAt == null) {
             throw new IllegalArgumentException("Locked seat must have lockedAt timestamp");
         }
-        if (status != SeatStatus.LOCKED && lockedAt != null) {
+        if (status != ScreeningSeatStatus.LOCKED && lockedAt != null) {
             throw new IllegalArgumentException("Only locked seats can have lockedAt timestamp");
         }
         if (version < 1) {
