@@ -111,7 +111,7 @@ class ScreeningSeatTest {
         seat.reserve(TIMEOUT, FIXED_CLOCK);
 
         // when & then
-        assertThatThrownBy(() -> seat.release())
+        assertThatThrownBy(seat::release)
                 .isInstanceOf(SeatNotAvailableException.class)
                 .hasMessageContaining("Only locked seats can be released");
     }
