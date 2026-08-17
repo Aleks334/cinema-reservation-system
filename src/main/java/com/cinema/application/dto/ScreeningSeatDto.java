@@ -1,4 +1,4 @@
-package com.cinema.application.port.in.dto;
+package com.cinema.application.dto;
 
 import com.cinema.domain.model.ScreeningSeat;
 

@@ -3,7 +3,7 @@ package com.cinema.infrastructure.adapter.in.web;
 import com.cinema.application.port.in.command.CommandBus;
 import com.cinema.application.port.in.command.LockSeatCommand;
 import com.cinema.application.port.in.command.ReserveSeatCommand;
-import com.cinema.application.port.in.dto.ScreeningDto;
+import com.cinema.application.dto.ScreeningDto;
 import com.cinema.application.port.in.query.GetScreeningQuery;
 import com.cinema.application.port.in.query.QueryBus;
 import com.cinema.domain.exception.ScreeningNotFoundException;

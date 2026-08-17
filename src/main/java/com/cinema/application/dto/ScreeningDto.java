@@ -1,11 +1,11 @@
-package com.cinema.application.port.in.dto;
+package com.cinema.application.dto;
 
 import com.cinema.domain.model.Screening;
 
 import java.util.List;
 
-import static com.cinema.application.port.in.dto.Formatters.DATE_FORMATTER;
-import static com.cinema.application.port.in.dto.Formatters.TIME_FORMATTER;
+import static com.cinema.application.dto.Formatters.DATE_FORMATTER;
+import static com.cinema.application.dto.Formatters.TIME_FORMATTER;
 
 public record ScreeningDto(
         String id,

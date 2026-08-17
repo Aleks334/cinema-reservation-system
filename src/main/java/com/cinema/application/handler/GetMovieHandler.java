@@ -1,6 +1,6 @@
 package com.cinema.application.handler;
 
-import com.cinema.application.port.in.dto.MovieDto;
+import com.cinema.application.dto.MovieDto;
 import com.cinema.application.port.in.query.GetMovieQuery;
 import com.cinema.application.port.in.query.QueryHandler;
 import com.cinema.application.port.out.MovieRepository;

@@ -1,6 +1,6 @@
 package com.cinema.application.handler;
 
-import com.cinema.application.port.in.dto.ScreeningDto;
+import com.cinema.application.dto.ScreeningDto;
 import com.cinema.application.port.in.query.GetScreeningQuery;
 import com.cinema.application.port.in.query.QueryHandler;
 import com.cinema.application.port.out.ScreeningRepository;
