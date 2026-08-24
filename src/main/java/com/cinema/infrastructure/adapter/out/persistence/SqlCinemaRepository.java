@@ -7,6 +7,7 @@ import com.cinema.domain.model.facility.Room;
 import com.cinema.domain.model.facility.RoomId;
 import com.cinema.domain.model.facility.Seat;
 import com.cinema.domain.model.facility.SeatType;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.Connection;
@@ -23,6 +24,7 @@ public final class SqlCinemaRepository implements CinemaRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlCinemaRepository.class);
     private final Map<UUID, Cinema> cache = new ConcurrentHashMap<>();
 
+    @Inject
     public SqlCinemaRepository(Connection connection) {
         loadAllCinemasIntoCache(connection);
     }

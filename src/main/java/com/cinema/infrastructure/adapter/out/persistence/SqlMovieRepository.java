@@ -4,6 +4,7 @@ import com.cinema.application.port.out.MovieRepository;
 import com.cinema.domain.model.catalog.Movie;
 import com.cinema.domain.model.catalog.MovieId;
 import com.cinema.infrastructure.adapter.out.persistence.mapping.MovieMapper;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.Connection;
@@ -19,6 +20,7 @@ public final class SqlMovieRepository implements MovieRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlMovieRepository.class);
     private final Map<UUID, Movie> cache = new ConcurrentHashMap<>();
 
+    @Inject
     public SqlMovieRepository(Connection connection) {
         loadAllMoviesIntoCache(connection);
     }
