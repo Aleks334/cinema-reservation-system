@@ -3,23 +3,30 @@ package com.cinema.infrastructure.bus;
 import com.cinema.application.port.in.command.Command;
 import com.cinema.application.port.in.command.CommandBus;
 import com.cinema.application.port.in.command.CommandHandler;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@Singleton
 public class InMemoryCommandBus implements CommandBus {
+    private final Map<Class<? extends Command>, CommandHandler<? extends Command>> cmdHandlers;
 
-    private final Map<Class<? extends Command>, CommandHandler<? extends Command>> registry = new HashMap<>();
+    @Inject
+    public InMemoryCommandBus(Map<Class<? extends Command>, CommandHandler<? extends Command>> cmdHandlers) {
+        this.cmdHandlers = cmdHandlers;
+    }
 
     @Override
     public <C extends Command> void register(Class<C> commandClass, CommandHandler<C> handler) {
-        registry.put(commandClass, handler);
+        cmdHandlers.put(commandClass, handler);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <C extends Command> void dispatch(C command) {
-        CommandHandler<C> handler = (CommandHandler<C>) registry.get(command.getClass());
+        CommandHandler<C> handler = (CommandHandler<C>) cmdHandlers.get(command.getClass());
         if(handler == null) {
             throw new IllegalArgumentException("No handler registered for " + command.getClass().getName());
         }

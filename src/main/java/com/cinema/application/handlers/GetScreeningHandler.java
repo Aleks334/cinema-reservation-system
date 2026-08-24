@@ -4,6 +4,7 @@ import com.cinema.application.dto.ScreeningDto;
 import com.cinema.application.port.in.query.GetScreeningQuery;
 import com.cinema.application.port.in.query.QueryHandler;
 import com.cinema.application.port.out.ScreeningRepository;
+import com.google.inject.Inject;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -12,6 +13,7 @@ public class GetScreeningHandler implements QueryHandler<GetScreeningQuery, Opti
 
     private final ScreeningRepository repository;
 
+    @Inject
     public GetScreeningHandler(ScreeningRepository repository) {
         this.repository = repository;
     }

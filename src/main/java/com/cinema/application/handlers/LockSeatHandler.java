@@ -5,6 +5,7 @@ import com.cinema.application.port.in.command.LockSeatCommand;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.ticketing.Screening;
+import com.google.inject.Inject;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -13,13 +14,10 @@ import java.util.Objects;
 public class LockSeatHandler implements CommandHandler<LockSeatCommand> {
 
     private final ScreeningRepository repository;
-    private final Duration lockTimeout;
-    private final Clock clock;
 
-    public LockSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
+    @Inject
+    public LockSeatHandler(ScreeningRepository repository) {
         this.repository = Objects.requireNonNull(repository);
-        this.lockTimeout = Objects.requireNonNull(lockTimeout);
-        this.clock = clock;
     }
 
     @Override
@@ -32,7 +30,7 @@ public class LockSeatHandler implements CommandHandler<LockSeatCommand> {
                         "Screening with ID " + cmd.screeningId() + " not found"
                 ));
 
-        screening.lockSeat(cmd.screeningSeatId(), lockTimeout, clock);
+        screening.lockSeat(cmd.screeningSeatId());
         repository.save(screening);
         screening.clearModifiedSeats();
     }
