@@ -1,18 +1,20 @@
 package com.cinema;
 
-import com.cinema.infrastructure.bus.InMemoryCommandBus;
-import com.cinema.infrastructure.bus.InMemoryQueryBus;
-import com.cinema.application.port.in.query.QueryBus;
-import com.cinema.application.port.in.command.CommandBus;
 import com.cinema.domain.exception.LockExpiredException;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
+import com.cinema.infrastructure.adapter.in.web.MovieController;
+import com.cinema.infrastructure.adapter.in.web.ScreeningController;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.exception.SeatAlreadyLockedException;
 import com.cinema.domain.exception.SeatNotAvailableException;
 import com.cinema.infrastructure.config.*;
+import com.cinema.infrastructure.config.modules.ConfigModule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.util.Modules;
 import io.javalin.Javalin;
 import io.javalin.http.HttpStatus;
 import io.javalin.json.JavalinJackson;
@@ -21,8 +23,6 @@ import io.javalin.openapi.plugin.swagger.SwaggerPlugin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.sql.Connection;
-import java.time.Clock;
 import java.util.Map;
 
 public final class Main {
@@ -31,20 +31,15 @@ public final class Main {
     private Main() {}
 
     public static void main(String[] args) {
-        Clock clock = Clock.systemDefaultZone();
-        AppConfig appConfig = new AppConfig();
+        Injector injector = Guice.createInjector(
+                Modules.requireAtInjectOnConstructorsModule(),
+                new ConfigModule()
+        );
 
-        CommandBus commandBus = new InMemoryCommandBus();
-        QueryBus queryBus = new InMemoryQueryBus();
-
-        Connection connection = DatabaseConfig.getConnection(appConfig);
-        RepositoryFactory.Repositories repositories = RepositoryFactory.create(connection);
-        ApplicationHandlersRegistrar.register(commandBus, queryBus, repositories, appConfig.getLockTimeout(), clock);
-        ControllerFactory.Controllers controllers = ControllerFactory.create(commandBus, queryBus);
-
+        AppConfig appConfig = injector.getInstance(AppConfig.class);
         Javalin app = createJavalinApp(appConfig);
 
-        registerRoutes(app, controllers);
+        registerRoutes(app, injector);
         registerExceptionHandlers(app);
 
         app.start(appConfig.getServerPort());
@@ -98,18 +93,21 @@ public final class Main {
         return app;
     }
 
-    private static void registerRoutes(Javalin app, ControllerFactory.Controllers controllers) {
-        app.get("/api/movies", controllers.getMovieController()::getAllMovies);
-        app.get("/api/movies/{id}", controllers.getMovieController()::getMovieById);
+    private static void registerRoutes(Javalin app, Injector injector) {
+        MovieController movieController = injector.getInstance(MovieController.class);
+        ScreeningController screeningController = injector.getInstance(ScreeningController.class);
+
+        app.get("/api/movies", movieController::getAllMovies);
+        app.get("/api/movies/{id}", movieController::getMovieById);
         app.get("/api/movies/{movieId}/screenings",
-                controllers.getMovieController()::getScreeningsForMovie);
+                movieController::getScreeningsForMovie);
 
         app.get("/api/screenings/{id}",
-                controllers.getScreeningController()::getScreeningById);
+                screeningController::getScreeningById);
         app.post("/api/screenings/{screeningId}/seats/{seatId}/lock",
-                controllers.getScreeningController()::lockSeat);
+                screeningController::lockSeat);
         app.post("/api/screenings/{screeningId}/seats/{seatId}/reserve",
-                controllers.getScreeningController()::reserveSeat);
+                screeningController::reserveSeat);
     }
 
     private static void registerExceptionHandlers(Javalin app) {
