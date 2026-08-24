@@ -5,6 +5,7 @@ import com.cinema.application.dto.MovieDto;
 import com.cinema.application.dto.ScreeningDto;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
 import com.cinema.domain.model.catalog.MovieId;
+import com.google.inject.Inject;
 import io.javalin.http.Context;
 import io.javalin.openapi.HttpMethod;
 import io.javalin.openapi.OpenApi;
@@ -16,8 +17,8 @@ import java.util.List;
 public final class MovieController {
     private final QueryBus queryBus;
 
+    @Inject
     public MovieController(QueryBus queryBus) {
-
         this.queryBus = queryBus;
     }
 

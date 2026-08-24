@@ -9,6 +9,7 @@ import com.cinema.application.port.in.query.QueryBus;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.ticketing.ScreeningId;
 import com.cinema.domain.model.ticketing.ScreeningSeatId;
+import com.google.inject.Inject;
 import io.javalin.http.Context;
 import io.javalin.openapi.HttpMethod;
 import io.javalin.openapi.OpenApi;
@@ -20,6 +21,7 @@ public final class ScreeningController {
     private final QueryBus queryBus;
     private final CommandBus commandBus;
 
+    @Inject
     public ScreeningController(CommandBus commandBus, QueryBus queryBus) {
         this.queryBus = queryBus;
         this.commandBus = commandBus;
