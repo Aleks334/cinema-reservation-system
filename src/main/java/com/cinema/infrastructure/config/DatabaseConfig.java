@@ -1,5 +1,7 @@
 package com.cinema.infrastructure.config;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
@@ -12,25 +14,29 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
-public final class DatabaseConfig {
+@Singleton
+public class DatabaseConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseConfig.class);
     private static Connection connection;
+    private final AppConfig appConfig;
 
-    private DatabaseConfig() {
+    @Inject
+    public DatabaseConfig(AppConfig appConfig) {
+        this.appConfig = appConfig;
     }
 
-    public static Connection getConnection(AppConfig appConfig) {
+    public Connection getConnection() {
         if (connection == null) {
             synchronized (DatabaseConfig.class) {
                 if (connection == null) {
-                    connection = initializeConnection(appConfig);
+                    connection = initializeConnection();
                 }
             }
         }
         return connection;
     }
 
-    private static Connection initializeConnection(AppConfig appConfig) {
+    private Connection initializeConnection() {
         try {
             String url = "jdbc:sqlite:" + appConfig.getDatabasePath();
             Connection conn = DriverManager.getConnection(url);
@@ -52,7 +58,7 @@ public final class DatabaseConfig {
         }
     }
 
-    private static void initializeSchema(Connection conn) {
+    private void initializeSchema(Connection conn) {
         try {
             InputStream schemaStream = DatabaseConfig.class
                     .getResourceAsStream("/db/schema.sql");

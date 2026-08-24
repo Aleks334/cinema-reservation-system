@@ -13,8 +13,12 @@ import com.cinema.infrastructure.bus.InMemoryCommandBus;
 import com.cinema.infrastructure.bus.InMemoryQueryBus;
 import com.cinema.infrastructure.config.*;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.MapBinder;
+
+import java.sql.Connection;
+import java.time.Clock;
 
 public class ConfigModule extends AbstractModule {
 
@@ -45,5 +49,25 @@ public class ConfigModule extends AbstractModule {
 
         bind(CommandBus.class).to(InMemoryCommandBus.class);
         bind(QueryBus.class).to(InMemoryQueryBus.class);
+    }
+
+    @Provides
+    private static Clock provideClock() {
+        return Clock.systemUTC();
+    }
+
+    @Provides
+    private static AppConfig provideAppConfig() {
+        return new AppConfig();
+    }
+
+    @Provides
+    private static DatabaseConfig provideDatabaseConfig(AppConfig appConfig) {
+        return new DatabaseConfig(appConfig);
+    }
+
+    @Provides
+    private static Connection provideConnection(DatabaseConfig dbConfig) {
+        return dbConfig.getConnection();
     }
 }
