@@ -6,6 +6,9 @@ import com.cinema.application.port.in.query.*;
 import com.cinema.application.port.out.CinemaRepository;
 import com.cinema.application.port.out.MovieRepository;
 import com.cinema.application.port.out.ScreeningRepository;
+import com.cinema.infrastructure.adapter.in.web.Controller;
+import com.cinema.infrastructure.adapter.in.web.MovieController;
+import com.cinema.infrastructure.adapter.in.web.ScreeningController;
 import com.cinema.infrastructure.adapter.out.persistence.SqlCinemaRepository;
 import com.cinema.infrastructure.adapter.out.persistence.SqlMovieRepository;
 import com.cinema.infrastructure.adapter.out.persistence.SqlScreeningRepository;
@@ -16,6 +19,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import com.google.inject.multibindings.MapBinder;
+import com.google.inject.multibindings.Multibinder;
 
 import java.sql.Connection;
 import java.time.Clock;
@@ -49,6 +53,10 @@ public class ConfigModule extends AbstractModule {
 
         bind(CommandBus.class).to(InMemoryCommandBus.class);
         bind(QueryBus.class).to(InMemoryQueryBus.class);
+
+        Multibinder<Controller> controllerBinder = Multibinder.newSetBinder(binder(), Controller.class);
+        controllerBinder.addBinding().to(MovieController.class);
+        controllerBinder.addBinding().to(ScreeningController.class);
     }
 
     @Provides

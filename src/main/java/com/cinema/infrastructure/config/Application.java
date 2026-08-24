@@ -2,6 +2,7 @@ package com.cinema.infrastructure.config;
 
 import com.cinema.Main;
 import com.cinema.domain.exception.*;
+import com.cinema.infrastructure.adapter.in.web.Controller;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -17,21 +18,26 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
     private final AppConfig appConfig;
+    private final Set<Controller> controllers;
 
     @Inject
-    public Application(AppConfig appConfig) {
+    public Application(AppConfig appConfig, Set<Controller> controllers) {
         this.appConfig = appConfig;
+        this.controllers = controllers;
     }
 
     public void run() {
         Javalin app = createJavalinApp(appConfig);
 
-        // TODO: register routes
+        controllers.forEach(controller -> {
+            controller.register(app);
+        });
         registerExceptionHandlers(app);
 
         app.start(appConfig.getServerPort());
@@ -43,7 +49,7 @@ public class Application {
         }
     }
 
-    private static Javalin createJavalinApp(AppConfig appConfig) {
+    private Javalin createJavalinApp(AppConfig appConfig) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
 
@@ -85,7 +91,7 @@ public class Application {
         return app;
     }
 
-    private static void registerExceptionHandlers(Javalin app) {
+    private void registerExceptionHandlers(Javalin app) {
         app.exception(OptimisticLockException.class, (e, ctx) -> {
             LOGGER.warn("Optimistic lock conflict: {}", e.getMessage());
             ctx.status(HttpStatus.CONFLICT);
