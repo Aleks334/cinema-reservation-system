@@ -1,6 +1,11 @@
 package com.cinema.infrastructure.config.modules;
 
-import com.cinema.application.handlers.*;
+import com.cinema.application.handlers.commands.LockSeatHandler;
+import com.cinema.application.handlers.commands.ReserveSeatHandler;
+import com.cinema.application.handlers.queries.GetAllMoviesHandler;
+import com.cinema.application.handlers.queries.GetMovieHandler;
+import com.cinema.application.handlers.queries.GetScreeningHandler;
+import com.cinema.application.handlers.queries.GetScreeningsForMovieHandler;
 import com.cinema.application.port.in.command.*;
 import com.cinema.application.port.in.query.*;
 import com.cinema.infrastructure.bus.InMemoryCommandBus;
