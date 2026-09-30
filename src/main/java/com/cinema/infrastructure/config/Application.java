@@ -1,6 +1,5 @@
 package com.cinema.infrastructure.config;
 
-import com.cinema.Main;
 import com.cinema.domain.exception.*;
 import com.cinema.infrastructure.adapter.in.web.Controller;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
@@ -22,7 +21,7 @@ import java.util.Set;
 
 @Singleton
 public class Application {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
     private final AppConfig appConfig;
     private final Set<Controller> controllers;
 
