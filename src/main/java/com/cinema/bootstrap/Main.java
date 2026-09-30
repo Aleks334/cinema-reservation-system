@@ -1,7 +1,7 @@
 package com.cinema.bootstrap;
 
 import com.cinema.bootstrap.infrastructure.Application;
-import com.cinema.bootstrap.infrastructure.config.BaseModule;
+import com.cinema.bootstrap.infrastructure.BaseModule;
 import com.cinema.catalog.infrastructure.config.CatalogModule;
 import com.cinema.facility.infrastructure.config.FacilityModule;
 import com.cinema.ticketing.infrastructure.config.TicketingModule;

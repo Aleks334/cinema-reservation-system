@@ -1,13 +1,14 @@
-package com.cinema.bootstrap.infrastructure.config;
+package com.cinema.bootstrap.infrastructure;
 
 import com.cinema.bootstrap.infrastructure.bus.InMemoryCommandBus;
 import com.cinema.bootstrap.infrastructure.bus.InMemoryQueryBus;
-import com.cinema.bootstrap.infrastructure.AppConfig;
-import com.cinema.bootstrap.infrastructure.DatabaseConfig;
+import com.cinema.bootstrap.infrastructure.web.GlobalExceptionHandlerMapper;
 import com.cinema.shared.CommandBus;
+import com.cinema.shared.ExceptionHandlerMapper;
 import com.cinema.shared.QueryBus;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.multibindings.Multibinder;
 
 import java.sql.Connection;
 import java.time.Clock;
@@ -18,6 +19,9 @@ public class BaseModule extends AbstractModule {
     protected void configure() {
         bind(CommandBus.class).to(InMemoryCommandBus.class);
         bind(QueryBus.class).to(InMemoryQueryBus.class);
+
+        Multibinder<ExceptionHandlerMapper> exceptionBinder = Multibinder.newSetBinder(binder(), ExceptionHandlerMapper.class);
+        exceptionBinder.addBinding().toInstance(new GlobalExceptionHandlerMapper());
     }
 
     @Provides

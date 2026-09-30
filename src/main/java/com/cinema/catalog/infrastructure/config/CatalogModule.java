@@ -2,9 +2,11 @@ package com.cinema.catalog.infrastructure.config;
 
 import com.cinema.catalog.application.query.*;
 import com.cinema.catalog.domain.port.MovieRepository;
+import com.cinema.catalog.infrastructure.adapter.in.web.CatalogExceptionHandlerMapper;
 import com.cinema.catalog.infrastructure.adapter.in.web.MovieController;
 import com.cinema.catalog.infrastructure.adapter.out.persistence.SqlMovieRepository;
 import com.cinema.shared.Controller;
+import com.cinema.shared.ExceptionHandlerMapper;
 import com.cinema.shared.Query;
 import com.cinema.shared.QueryHandler;
 import com.google.inject.AbstractModule;
@@ -28,5 +30,8 @@ public class CatalogModule extends AbstractModule {
 
         Multibinder<Controller> controllerBinder = Multibinder.newSetBinder(binder(), Controller.class);
         controllerBinder.addBinding().to(MovieController.class);
+
+        Multibinder<ExceptionHandlerMapper> exceptionBinder = Multibinder.newSetBinder(binder(), ExceptionHandlerMapper.class);
+        exceptionBinder.addBinding().toInstance(new CatalogExceptionHandlerMapper());
     }
 }
