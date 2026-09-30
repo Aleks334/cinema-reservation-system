@@ -1,6 +1,6 @@
 package com.cinema.infrastructure.adapter.out.persistence;
 
-import com.cinema.application.port.out.CinemaRepository;
+import com.cinema.application.ports.out.CinemaRepository;
 import com.cinema.domain.model.facility.Cinema;
 import com.cinema.domain.model.facility.CinemaId;
 import com.cinema.domain.model.facility.Room;

@@ -1,8 +1,8 @@
 package com.cinema.infrastructure.config.modules;
 
-import com.cinema.application.port.out.CinemaRepository;
-import com.cinema.application.port.out.MovieRepository;
-import com.cinema.application.port.out.ScreeningRepository;
+import com.cinema.application.ports.out.CinemaRepository;
+import com.cinema.application.ports.out.MovieRepository;
+import com.cinema.application.ports.out.ScreeningRepository;
 import com.cinema.infrastructure.adapter.in.web.Controller;
 import com.cinema.infrastructure.adapter.in.web.MovieController;
 import com.cinema.infrastructure.adapter.in.web.ScreeningController;

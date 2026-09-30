@@ -1,8 +1,7 @@
 package com.cinema.infrastructure.bus;
 
-import com.cinema.application.port.in.Command;
-import com.cinema.application.port.in.CommandBus;
-import com.cinema.application.port.in.CommandHandler;
+import com.cinema.application.ports.in.Command;
+import com.cinema.application.ports.in.CommandHandler;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

@@ -1,8 +1,7 @@
 package com.cinema.infrastructure.bus;
 
-import com.cinema.application.port.in.Query;
-import com.cinema.application.port.in.QueryBus;
-import com.cinema.application.port.in.QueryHandler;
+import com.cinema.application.ports.in.Query;
+import com.cinema.application.ports.in.QueryHandler;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

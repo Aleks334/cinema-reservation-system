@@ -1,6 +1,6 @@
 package com.cinema.infrastructure.adapter.out.persistence;
 
-import com.cinema.application.port.out.ScreeningRepository;
+import com.cinema.application.ports.out.ScreeningRepository;
 import com.cinema.infrastructure.adapter.out.persistence.exception.OptimisticLockException;
 import com.cinema.domain.model.catalog.MovieId;
 import com.cinema.domain.model.ticketing.Screening;

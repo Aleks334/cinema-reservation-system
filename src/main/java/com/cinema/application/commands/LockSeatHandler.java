@@ -1,7 +1,7 @@
 package com.cinema.application.commands;
 
-import com.cinema.application.port.in.CommandHandler;
-import com.cinema.application.port.out.ScreeningRepository;
+import com.cinema.application.ports.in.CommandHandler;
+import com.cinema.application.ports.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.ticketing.Screening;
 import com.cinema.infrastructure.config.AppConfig;

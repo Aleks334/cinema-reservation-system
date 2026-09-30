@@ -1,4 +1,4 @@
-package com.cinema.application.port.out;
+package com.cinema.application.ports.out;
 
 import com.cinema.domain.model.catalog.Movie;
 import com.cinema.domain.model.catalog.MovieId;

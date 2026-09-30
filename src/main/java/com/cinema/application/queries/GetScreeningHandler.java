@@ -1,8 +1,8 @@
 package com.cinema.application.queries;
 
 import com.cinema.application.dto.ScreeningDto;
-import com.cinema.application.port.in.QueryHandler;
-import com.cinema.application.port.out.ScreeningRepository;
+import com.cinema.application.ports.in.QueryHandler;
+import com.cinema.application.ports.out.ScreeningRepository;
 import com.google.inject.Inject;
 
 import java.util.Objects;

@@ -1,4 +1,4 @@
-package com.cinema.application.port.in;
+package com.cinema.application.ports.in;
 
 @FunctionalInterface
 public interface QueryHandler<Q extends Query<R>, R> {

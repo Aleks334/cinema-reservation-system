@@ -1,8 +1,8 @@
 package com.cinema.application.queries;
 
 import com.cinema.application.dto.MovieDto;
-import com.cinema.application.port.in.QueryHandler;
-import com.cinema.application.port.out.MovieRepository;
+import com.cinema.application.ports.in.QueryHandler;
+import com.cinema.application.ports.out.MovieRepository;
 import com.google.inject.Inject;
 
 import java.util.List;

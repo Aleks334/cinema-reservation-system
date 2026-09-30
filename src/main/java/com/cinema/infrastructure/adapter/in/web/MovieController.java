@@ -3,7 +3,7 @@ package com.cinema.infrastructure.adapter.in.web;
 import com.cinema.application.queries.GetAllMoviesQuery;
 import com.cinema.application.queries.GetMovieQuery;
 import com.cinema.application.queries.GetScreeningsForMovieQuery;
-import com.cinema.application.port.in.QueryBus;
+import com.cinema.infrastructure.bus.QueryBus;
 import com.cinema.application.dto.MovieDto;
 import com.cinema.application.dto.ScreeningDto;
 import com.cinema.domain.exception.NoSuchMovieFoundException;
