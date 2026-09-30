@@ -1,4 +1,4 @@
-package com.cinema.application.port.in.command;
+package com.cinema.application.port.in;
 
 public interface CommandBus {
      <C extends Command> void register(Class<C> commandClass, CommandHandler<C> handler);

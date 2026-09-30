@@ -1,12 +1,11 @@
 package com.cinema.infrastructure.bus;
 
-import com.cinema.application.port.in.command.Command;
-import com.cinema.application.port.in.command.CommandBus;
-import com.cinema.application.port.in.command.CommandHandler;
+import com.cinema.application.port.in.Command;
+import com.cinema.application.port.in.CommandBus;
+import com.cinema.application.port.in.CommandHandler;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Singleton

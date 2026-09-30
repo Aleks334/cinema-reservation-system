@@ -1,13 +1,11 @@
 package com.cinema.infrastructure.config.modules;
 
-import com.cinema.application.handlers.commands.LockSeatHandler;
-import com.cinema.application.handlers.commands.ReserveSeatHandler;
-import com.cinema.application.handlers.queries.GetAllMoviesHandler;
-import com.cinema.application.handlers.queries.GetMovieHandler;
-import com.cinema.application.handlers.queries.GetScreeningHandler;
-import com.cinema.application.handlers.queries.GetScreeningsForMovieHandler;
-import com.cinema.application.port.in.command.*;
-import com.cinema.application.port.in.query.*;
+import com.cinema.application.commands.LockSeatCommand;
+import com.cinema.application.commands.LockSeatHandler;
+import com.cinema.application.commands.ReserveSeatCommand;
+import com.cinema.application.commands.ReserveSeatHandler;
+import com.cinema.application.port.in.*;
+import com.cinema.application.queries.*;
 import com.cinema.infrastructure.bus.InMemoryCommandBus;
 import com.cinema.infrastructure.bus.InMemoryQueryBus;
 import com.google.inject.AbstractModule;

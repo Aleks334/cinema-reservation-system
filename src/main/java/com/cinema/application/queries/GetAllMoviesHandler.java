@@ -1,8 +1,7 @@
-package com.cinema.application.handlers.queries;
+package com.cinema.application.queries;
 
 import com.cinema.application.dto.MovieDto;
-import com.cinema.application.port.in.query.GetAllMoviesQuery;
-import com.cinema.application.port.in.query.QueryHandler;
+import com.cinema.application.port.in.QueryHandler;
 import com.cinema.application.port.out.MovieRepository;
 import com.google.inject.Inject;
 

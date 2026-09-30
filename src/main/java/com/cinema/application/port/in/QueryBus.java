@@ -1,4 +1,4 @@
-package com.cinema.application.port.in.query;
+package com.cinema.application.port.in;
 
 public interface QueryBus {
     <R, Q extends Query<R>> void register(Class<Q> queryClass, QueryHandler<Q, R> handler);

@@ -1,6 +1,7 @@
-package com.cinema.application.port.in.query;
+package com.cinema.application.queries;
 
 import com.cinema.application.dto.MovieDto;
+import com.cinema.application.port.in.Query;
 
 import java.util.List;
 
