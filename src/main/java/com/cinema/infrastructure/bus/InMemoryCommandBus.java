@@ -18,11 +18,6 @@ public class InMemoryCommandBus implements CommandBus {
     }
 
     @Override
-    public <C extends Command> void register(Class<C> commandClass, CommandHandler<C> handler) {
-        cmdHandlers.put(commandClass, handler);
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
     public <C extends Command> void dispatch(C command) {
         CommandHandler<C> handler = (CommandHandler<C>) cmdHandlers.get(command.getClass());

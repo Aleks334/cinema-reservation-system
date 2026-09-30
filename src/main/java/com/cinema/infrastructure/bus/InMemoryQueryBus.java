@@ -18,11 +18,6 @@ public class InMemoryQueryBus implements QueryBus {
     }
 
     @Override
-    public <R, Q extends Query<R>> void register(Class<Q> queryClass, QueryHandler<Q, R> handler) {
-        queryHandlers.put(queryClass, handler);
-    }
-
-    @Override
     @SuppressWarnings("unchecked")
     public <R, Q extends Query<R>> R execute(Q query) {
         QueryHandler<Q, R> handler = (QueryHandler<Q, R>) queryHandlers.get(query.getClass());
