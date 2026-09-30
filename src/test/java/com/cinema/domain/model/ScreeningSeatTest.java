@@ -1,8 +1,8 @@
 package com.cinema.domain.model;
 
-import com.cinema.domain.exception.SeatAlreadyLockedException;
-import com.cinema.domain.exception.SeatNotAvailableException;
-import com.cinema.domain.model.ticketing.ScreeningSeat;
+import com.cinema.ticketing.domain.exception.SeatAlreadyLockedException;
+import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
+import com.cinema.ticketing.domain.model.ScreeningSeat;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;

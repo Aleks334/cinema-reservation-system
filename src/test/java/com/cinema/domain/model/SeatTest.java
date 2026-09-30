@@ -1,7 +1,7 @@
 package com.cinema.domain.model;
 
-import com.cinema.domain.model.facility.Seat;
-import com.cinema.domain.model.facility.SeatType;
+import com.cinema.facility.domain.model.Seat;
+import com.cinema.facility.domain.model.SeatType;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

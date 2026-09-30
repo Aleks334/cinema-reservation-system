@@ -1,10 +1,10 @@
 package com.cinema.domain.model;
 
-import com.cinema.domain.model.facility.SeatType;
+import com.cinema.facility.domain.model.SeatType;
 import com.cinema.domain.model.fixtures.RoomFixture;
 import com.cinema.domain.model.fixtures.SeatFixture;
-import com.cinema.domain.model.facility.RoomId;
-import com.cinema.domain.model.facility.Seat;
+import com.cinema.facility.domain.model.RoomId;
+import com.cinema.facility.domain.model.Seat;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;

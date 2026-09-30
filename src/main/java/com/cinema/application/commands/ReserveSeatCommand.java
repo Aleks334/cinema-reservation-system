@@ -1,7 +1,0 @@
-package com.cinema.application.commands;
-
-import com.cinema.application.ports.in.Command;
-import com.cinema.domain.model.ticketing.ScreeningId;
-import com.cinema.domain.model.ticketing.ScreeningSeatId;
-
-public record ReserveSeatCommand(ScreeningId screeningId, ScreeningSeatId screeningSeatId) implements Command { }

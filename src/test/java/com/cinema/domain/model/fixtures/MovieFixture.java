@@ -1,10 +1,10 @@
 package com.cinema.domain.model.fixtures;
 
-import com.cinema.domain.model.catalog.Movie;
-import com.cinema.domain.model.catalog.MovieGenre;
-import com.cinema.domain.model.catalog.Director;
-import com.cinema.domain.model.catalog.MovieDuration;
-import com.cinema.domain.model.catalog.MovieId;
+import com.cinema.catalog.domain.model.Movie;
+import com.cinema.catalog.domain.model.MovieGenre;
+import com.cinema.catalog.domain.model.Director;
+import com.cinema.catalog.domain.model.MovieDuration;
+import com.cinema.catalog.domain.model.MovieId;
 
 public class MovieFixture {
 
