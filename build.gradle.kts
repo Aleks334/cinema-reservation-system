@@ -30,6 +30,8 @@ dependencies {
     
     implementation("ch.qos.logback:logback-classic:1.4.14")
     implementation("org.slf4j:slf4j-api:2.0.9")
+
+    implementation("com.google.inject:guice:7.0.0")
     
     testImplementation("org.junit.jupiter:junit-jupiter:5.10.1")
     testImplementation("org.junit.jupiter:junit-jupiter-params:5.10.1")

@@ -1,29 +1,30 @@
-package com.cinema.application.handlers;
+package com.cinema.application.commands;
 
-import com.cinema.application.port.in.command.CommandHandler;
-import com.cinema.application.port.in.command.LockSeatCommand;
+import com.cinema.application.port.in.CommandHandler;
 import com.cinema.application.port.out.ScreeningRepository;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.ticketing.Screening;
+import com.cinema.infrastructure.config.AppConfig;
+import com.google.inject.Inject;
 
 import java.time.Clock;
-import java.time.Duration;
 import java.util.Objects;
 
-public class LockSeatHandler implements CommandHandler<LockSeatCommand> {
+public class ReserveSeatHandler implements CommandHandler<ReserveSeatCommand> {
 
     private final ScreeningRepository repository;
-    private final Duration lockTimeout;
+    private final AppConfig appConfig;
     private final Clock clock;
 
-    public LockSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
+    @Inject
+    public ReserveSeatHandler(ScreeningRepository repository, AppConfig appConfig, Clock clock) {
         this.repository = Objects.requireNonNull(repository);
-        this.lockTimeout = Objects.requireNonNull(lockTimeout);
+        this.appConfig = appConfig;
         this.clock = clock;
     }
 
     @Override
-    public void handle(LockSeatCommand cmd) {
+    public void handle(ReserveSeatCommand cmd) {
         Objects.requireNonNull(cmd.screeningId());
         Objects.requireNonNull(cmd.screeningSeatId());
 
@@ -32,7 +33,7 @@ public class LockSeatHandler implements CommandHandler<LockSeatCommand> {
                         "Screening with ID " + cmd.screeningId() + " not found"
                 ));
 
-        screening.lockSeat(cmd.screeningSeatId(), lockTimeout, clock);
+        screening.reserveSeat(cmd.screeningSeatId(), appConfig.getLockTimeout(), clock);
         repository.save(screening);
         screening.clearModifiedSeats();
     }

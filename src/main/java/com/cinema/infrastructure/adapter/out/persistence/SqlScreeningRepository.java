@@ -7,6 +7,7 @@ import com.cinema.domain.model.ticketing.Screening;
 import com.cinema.domain.model.ticketing.ScreeningId;
 import com.cinema.domain.model.ticketing.ScreeningSeat;
 import com.cinema.infrastructure.adapter.out.persistence.mapping.ScreeningMapper;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.Connection;
@@ -18,6 +19,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlScreeningRepository.class);
     private final Connection connection;
 
+    @Inject
     public SqlScreeningRepository(Connection connection) {
         this.connection = connection;
     }

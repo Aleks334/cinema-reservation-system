@@ -1,9 +1,9 @@
-package com.cinema.application.handlers;
+package com.cinema.application.queries;
 
 import com.cinema.application.dto.MovieDto;
-import com.cinema.application.port.in.query.GetAllMoviesQuery;
-import com.cinema.application.port.in.query.QueryHandler;
+import com.cinema.application.port.in.QueryHandler;
 import com.cinema.application.port.out.MovieRepository;
+import com.google.inject.Inject;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ public class GetAllMoviesHandler implements QueryHandler<GetAllMoviesQuery, List
 
     private final MovieRepository repository;
 
+    @Inject
     public GetAllMoviesHandler(MovieRepository repository) {
         this.repository = repository;
     }

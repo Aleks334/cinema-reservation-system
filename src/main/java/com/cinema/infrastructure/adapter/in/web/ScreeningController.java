@@ -1,14 +1,16 @@
 package com.cinema.infrastructure.adapter.in.web;
 
-import com.cinema.application.port.in.command.CommandBus;
-import com.cinema.application.port.in.command.LockSeatCommand;
-import com.cinema.application.port.in.command.ReserveSeatCommand;
+import com.cinema.application.port.in.CommandBus;
+import com.cinema.application.commands.LockSeatCommand;
+import com.cinema.application.commands.ReserveSeatCommand;
 import com.cinema.application.dto.ScreeningDto;
-import com.cinema.application.port.in.query.GetScreeningQuery;
-import com.cinema.application.port.in.query.QueryBus;
+import com.cinema.application.queries.GetScreeningQuery;
+import com.cinema.application.port.in.QueryBus;
 import com.cinema.domain.exception.ScreeningNotFoundException;
 import com.cinema.domain.model.ticketing.ScreeningId;
 import com.cinema.domain.model.ticketing.ScreeningSeatId;
+import com.google.inject.Inject;
+import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.openapi.HttpMethod;
 import io.javalin.openapi.OpenApi;
@@ -16,13 +18,24 @@ import io.javalin.openapi.OpenApiContent;
 import io.javalin.openapi.OpenApiParam;
 import io.javalin.openapi.OpenApiResponse;
 
-public final class ScreeningController {
+public final class ScreeningController implements Controller {
     private final QueryBus queryBus;
     private final CommandBus commandBus;
 
+    @Inject
     public ScreeningController(CommandBus commandBus, QueryBus queryBus) {
         this.queryBus = queryBus;
         this.commandBus = commandBus;
+    }
+
+    @Override
+    public void register(Javalin app) {
+        app.get("/api/screenings/{id}",
+                this::getScreeningById);
+        app.post("/api/screenings/{screeningId}/seats/{seatId}/lock",
+                this::lockSeat);
+        app.post("/api/screenings/{screeningId}/seats/{seatId}/reserve",
+                this::reserveSeat);
     }
 
     @OpenApi(
@@ -39,7 +52,7 @@ public final class ScreeningController {
                     @OpenApiResponse(status = "404", description = "Screening not found")
             }
     )
-    public void getScreeningById(Context ctx) {
+    private void getScreeningById(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("id"));
 
         ScreeningDto screening = queryBus.execute(new GetScreeningQuery(screeningId))
@@ -65,7 +78,7 @@ public final class ScreeningController {
                     @OpenApiResponse(status = "409", description = "Conflict")
             }
     )
-    public void lockSeat(Context ctx) {
+    private void lockSeat(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
         ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
 
@@ -88,7 +101,7 @@ public final class ScreeningController {
                     @OpenApiResponse(status = "409", description = "Conflict")
             }
     )
-    public void reserveSeat(Context ctx) {
+    private void reserveSeat(Context ctx) {
         ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
         ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
 
