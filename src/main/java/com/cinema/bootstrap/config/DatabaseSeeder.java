@@ -1,4 +1,4 @@
-package com.cinema.bootstrap.infrastructure;
+package com.cinema.bootstrap.config;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

@@ -1,8 +1,8 @@
-package com.cinema.bootstrap.infrastructure;
+package com.cinema.bootstrap.config;
 
-import com.cinema.bootstrap.infrastructure.bus.InMemoryCommandBus;
-import com.cinema.bootstrap.infrastructure.bus.InMemoryQueryBus;
-import com.cinema.bootstrap.infrastructure.web.GlobalExceptionHandlerMapper;
+import com.cinema.bootstrap.config.bus.InMemoryCommandBus;
+import com.cinema.bootstrap.config.bus.InMemoryQueryBus;
+import com.cinema.bootstrap.config.web.GlobalExceptionHandlerMapper;
 import com.cinema.shared.CommandBus;
 import com.cinema.shared.ExceptionHandlerMapper;
 import com.cinema.shared.QueryBus;

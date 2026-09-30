@@ -4,7 +4,7 @@ import com.cinema.shared.CommandHandler;
 import com.cinema.ticketing.domain.port.ScreeningRepository;
 import com.cinema.ticketing.domain.exception.ScreeningNotFoundException;
 import com.cinema.ticketing.domain.model.Screening;
-import com.cinema.bootstrap.infrastructure.AppConfig;
+import com.cinema.bootstrap.config.AppConfig;
 import com.google.inject.Inject;
 
 import java.time.Clock;

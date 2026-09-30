@@ -1,4 +1,4 @@
-package com.cinema.bootstrap.infrastructure.web;
+package com.cinema.bootstrap.config.web;
 
 import com.cinema.shared.ExceptionHandlerMapper;
 import io.javalin.Javalin;

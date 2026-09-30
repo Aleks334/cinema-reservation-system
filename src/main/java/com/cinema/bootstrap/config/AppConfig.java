@@ -1,4 +1,4 @@
-package com.cinema.bootstrap.infrastructure;
+package com.cinema.bootstrap.config;
 
 import com.google.inject.Singleton;
 import org.slf4j.Logger;

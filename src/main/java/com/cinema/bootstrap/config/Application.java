@@ -1,4 +1,4 @@
-package com.cinema.bootstrap.infrastructure;
+package com.cinema.bootstrap.config;
 
 import com.cinema.shared.Controller;
 import com.cinema.shared.ExceptionHandlerMapper;

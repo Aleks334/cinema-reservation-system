@@ -52,5 +52,5 @@ tasks.register<JavaExec>("seedDb") {
     group = "application"
     description = "Seeds the database with sample data"
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("com.cinema.infrastructure.config.DatabaseSeeder")
+    mainClass.set("com.cinema.bootstrap.config.DatabaseSeeder")
 }

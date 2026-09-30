@@ -1,4 +1,4 @@
-package com.cinema.bootstrap.infrastructure.bus;
+package com.cinema.bootstrap.config.bus;
 
 import com.cinema.shared.Query;
 import com.cinema.shared.QueryHandler;
