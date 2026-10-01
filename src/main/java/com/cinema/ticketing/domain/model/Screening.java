@@ -1,8 +1,6 @@
 package com.cinema.ticketing.domain.model;
 
 import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
-import com.cinema.catalog.domain.model.MovieId;
-import com.cinema.facility.domain.model.RoomId;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -28,10 +26,9 @@ public final class Screening {
         this.roomId = Objects.requireNonNull(roomId, "Room ID cannot be null");
         this.startDateTime = Objects.requireNonNull(startDateTime, "Start date time cannot be null");
 
-        this.screeningSeats =
-                Objects.requireNonNull(screeningSeats, "Screening seats cannot be null")
-                        .stream()
-                        .collect(Collectors.toMap(ScreeningSeat::getId, Function.identity()));
+        this.screeningSeats = Objects.requireNonNull(screeningSeats, "Screening seats cannot be null")
+                .stream()
+                .collect(Collectors.toMap(ScreeningSeat::getId, Function.identity()));
     }
 
     public void lockSeat(ScreeningSeatId seatId, Duration lockTimeout, Clock clock) {

@@ -1,7 +1,7 @@
 package com.cinema.ticketing.domain.port;
 
 import com.cinema.ticketing.domain.model.Screening;
-import com.cinema.catalog.domain.model.MovieId;
+import com.cinema.ticketing.domain.model.MovieId;
 import com.cinema.ticketing.domain.model.ScreeningId;
 
 import java.util.List;

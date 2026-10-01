@@ -1,7 +1,5 @@
 package com.cinema.ticketing.application.command;
 
 import com.cinema.shared.Command;
-import com.cinema.ticketing.domain.model.ScreeningId;
-import com.cinema.ticketing.domain.model.ScreeningSeatId;
 
-public record ReserveSeatCommand(ScreeningId screeningId, ScreeningSeatId screeningSeatId) implements Command { }
+public record ReserveSeatCommand(String screeningId, String screeningSeatId) implements Command { }

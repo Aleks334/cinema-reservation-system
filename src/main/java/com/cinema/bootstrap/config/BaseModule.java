@@ -12,6 +12,7 @@ import com.google.inject.multibindings.Multibinder;
 
 import java.sql.Connection;
 import java.time.Clock;
+import java.time.Duration;
 
 public class BaseModule extends AbstractModule {
 
@@ -32,6 +33,11 @@ public class BaseModule extends AbstractModule {
     @Provides
     private static AppConfig provideAppConfig() {
         return new AppConfig();
+    }
+
+    @Provides
+    private static Duration provideLockTimeout(AppConfig appConfig) {
+        return appConfig.getLockTimeout();
     }
 
     @Provides

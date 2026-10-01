@@ -15,7 +15,7 @@ public record ScreeningSeatDto(
                 seat.getId().toString(),
                 seat.getSeat().row(),
                 seat.getSeat().number(),
-                seat.getSeat().seatType().name(),
+                seat.getSeat().type(),
                 seat.getStatus().name()
         );
     }

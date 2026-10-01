@@ -2,13 +2,9 @@ package com.cinema.catalog.infrastructure.adapter.in.web;
 
 import com.cinema.catalog.application.query.GetAllMoviesQuery;
 import com.cinema.catalog.application.query.GetMovieQuery;
-import com.cinema.ticketing.application.query.GetScreeningsForMovieQuery;
 import com.cinema.shared.Controller;
 import com.cinema.shared.QueryBus;
 import com.cinema.catalog.application.query.dto.MovieDto;
-import com.cinema.ticketing.application.query.dto.ScreeningDto;
-import com.cinema.catalog.domain.exception.NoSuchMovieFoundException;
-import com.cinema.catalog.domain.model.MovieId;
 import com.google.inject.Inject;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
@@ -31,8 +27,6 @@ public final class MovieController implements Controller {
     public void register(Javalin app) {
         app.get("/api/movies", this::getAllMovies);
         app.get("/api/movies/{id}", this::getMovieById);
-        app.get("/api/movies/{movieId}/screenings",
-                this::getScreeningsForMovie);
     }
 
     @OpenApi(
@@ -63,32 +57,12 @@ public final class MovieController implements Controller {
             }
     )
     private void getMovieById(Context ctx) {
-        MovieId movieId = MovieId.from(ctx.pathParam("id"));
+        String movieId = ctx.pathParam("id");
 
-        MovieDto movie = queryBus.execute(new GetMovieQuery(movieId))
-                .orElseThrow(() -> new NoSuchMovieFoundException(
-                        "Movie with ID " + movieId + " not found"
-                ));
+        MovieDto movie = queryBus.execute(new GetMovieQuery(movieId));
 
         ctx.json(movie);
     }
 
-    @OpenApi(
-            path = "/api/movies/{movieId}/screenings",
-            methods = HttpMethod.GET,
-            summary = "Get screenings for movie",
-            description = "Retrieves all screenings for a specific movie",
-            pathParams = {
-                    @OpenApiParam(name = "movieId", description = "Movie UUID", required = true)
-            },
-            responses = {
-                    @OpenApiResponse(status = "200",
-                            content = @OpenApiContent(from = ScreeningDto[].class))
-            }
-    )
-    private void getScreeningsForMovie(Context ctx) {
-        MovieId movieId = MovieId.from(ctx.pathParam("movieId"));
-        List<ScreeningDto> screenings = queryBus.execute(new GetScreeningsForMovieQuery(movieId));
-        ctx.json(screenings);
-    }
+
 }

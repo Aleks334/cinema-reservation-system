@@ -1,39 +1,41 @@
 package com.cinema.ticketing.application.command;
 
 import com.cinema.shared.CommandHandler;
-import com.cinema.ticketing.domain.port.ScreeningRepository;
 import com.cinema.ticketing.domain.exception.ScreeningNotFoundException;
 import com.cinema.ticketing.domain.model.Screening;
-import com.cinema.bootstrap.config.AppConfig;
+import com.cinema.ticketing.domain.model.ScreeningId;
+import com.cinema.ticketing.domain.model.ScreeningSeatId;
+import com.cinema.ticketing.domain.port.ScreeningRepository;
 import com.google.inject.Inject;
 
 import java.time.Clock;
+import java.time.Duration;
 import java.util.Objects;
 
 public class LockSeatHandler implements CommandHandler<LockSeatCommand> {
 
     private final ScreeningRepository repository;
-    private final AppConfig appConfig;
+    private final Duration lockTimeout;
     private final Clock clock;
 
     @Inject
-    public LockSeatHandler(ScreeningRepository repository, AppConfig appConfig, Clock clock) {
+    public LockSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
         this.repository = Objects.requireNonNull(repository);
-        this.appConfig = appConfig;
-        this.clock = clock;
+        this.lockTimeout = Objects.requireNonNull(lockTimeout);
+        this.clock = Objects.requireNonNull(clock);
     }
 
     @Override
     public void handle(LockSeatCommand cmd) {
-        Objects.requireNonNull(cmd.screeningId());
-        Objects.requireNonNull(cmd.screeningSeatId());
+        Objects.requireNonNull(cmd.screeningId(), "Screening ID cannot be null");
+        Objects.requireNonNull(cmd.screeningSeatId(), "Screening Seat ID cannot be null");
 
-        Screening screening = repository.findById(cmd.screeningId())
-                .orElseThrow(() -> new ScreeningNotFoundException(
-                        "Screening with ID " + cmd.screeningId() + " not found"
-                ));
+        ScreeningId screeningId = ScreeningId.from(cmd.screeningId());
+        Screening screening = repository.findById(screeningId)
+                .orElseThrow(() -> new ScreeningNotFoundException("Screening with ID " + cmd.screeningId() + " not found"));
 
-        screening.lockSeat(cmd.screeningSeatId(), appConfig.getLockTimeout(), clock);
+        screening.lockSeat(ScreeningSeatId.from(cmd.screeningSeatId()), lockTimeout, clock);
+
         repository.save(screening);
         screening.clearModifiedSeats();
     }

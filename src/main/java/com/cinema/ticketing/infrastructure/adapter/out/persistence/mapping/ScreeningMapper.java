@@ -1,9 +1,5 @@
 package com.cinema.ticketing.infrastructure.adapter.out.persistence.mapping;
 
-import com.cinema.catalog.domain.model.MovieId;
-import com.cinema.facility.domain.model.RoomId;
-import com.cinema.facility.domain.model.Seat;
-import com.cinema.facility.domain.model.SeatType;
 import com.cinema.ticketing.domain.model.*;
 
 import java.sql.ResultSet;
@@ -15,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public final class ScreeningMapper {
+
     private ScreeningMapper() {}
 
     public static Optional<Screening> toScreening(ResultSet rs) throws SQLException {
@@ -32,7 +29,7 @@ public final class ScreeningMapper {
         do {
             String seatId = rs.getString("seat_id");
             if (seatId != null) {
-                seats.add(ScreeningMapper.toScreeningSeat(rs));
+                seats.add(toScreeningSeat(rs));
             }
         } while (rs.next());
 
@@ -65,7 +62,7 @@ public final class ScreeningMapper {
 
             String seatId = rs.getString("seat_id");
             if (seatId != null) {
-                currentSeats.add(ScreeningMapper.toScreeningSeat(rs));
+                currentSeats.add(toScreeningSeat(rs));
             }
         }
 
@@ -77,10 +74,10 @@ public final class ScreeningMapper {
     }
 
     public static ScreeningSeat toScreeningSeat(ResultSet rs) throws SQLException {
-        Seat seat = new Seat(
+        SeatInfo seat = new SeatInfo(
                 rs.getString("seat_row"),
                 rs.getString("seat_number"),
-                SeatType.valueOf(rs.getString("seat_type"))
+                rs.getString("seat_type")
         );
 
         String lockedAtStr = rs.getString("locked_at");

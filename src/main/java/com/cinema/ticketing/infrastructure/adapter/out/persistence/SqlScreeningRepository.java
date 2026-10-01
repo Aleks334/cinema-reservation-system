@@ -1,6 +1,6 @@
 package com.cinema.ticketing.infrastructure.adapter.out.persistence;
 
-import com.cinema.catalog.domain.model.MovieId;
+import com.cinema.ticketing.domain.model.MovieId;
 import com.cinema.ticketing.domain.model.Screening;
 import com.cinema.ticketing.domain.model.ScreeningId;
 import com.cinema.ticketing.domain.model.ScreeningSeat;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 public final class SqlScreeningRepository implements ScreeningRepository {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlScreeningRepository.class);
     private final Connection connection;
 
@@ -51,8 +52,8 @@ public final class SqlScreeningRepository implements ScreeningRepository {
     public List<Screening> findByMovieId(MovieId movieId) {
         String sql = """
                       SELECT s.id, s.movie_id, s.room_id, s.start_date_time,
-                          ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type,
-                          ss.status, ss.locked_at, ss.version
+                             ss.id as seat_id, ss.seat_row, ss.seat_number, ss.seat_type,
+                             ss.status, ss.locked_at, ss.version
                       FROM screenings s
                       LEFT JOIN screening_seats ss ON s.id = ss.screening_id
                       WHERE s.movie_id = ?
@@ -121,7 +122,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
                 int updated = stmt.executeUpdate();
                 if (updated == 0) {
                     throw new OptimisticLockException(
-                            "Seat " + seat.getSeat().getSeatPosition()
+                            "Seat " + seat.getSeat().position()
                                     + " was modified by another transaction. Please refresh and retry."
                     );
                 }

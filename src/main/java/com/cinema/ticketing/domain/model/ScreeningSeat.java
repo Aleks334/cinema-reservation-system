@@ -2,7 +2,6 @@ package com.cinema.ticketing.domain.model;
 
 import com.cinema.ticketing.domain.exception.SeatAlreadyLockedException;
 import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
-import com.cinema.facility.domain.model.Seat;
 
 import java.time.Clock;
 import java.time.Duration;
@@ -11,14 +10,14 @@ import java.util.Objects;
 
 public final class ScreeningSeat {
     private final ScreeningSeatId id;
-    private final Seat seat;
+    private final SeatInfo seat;
     private ScreeningSeatStatus status;
     private Instant lockedAt;
     private int version;
 
     public ScreeningSeat(
             ScreeningSeatId id,
-            Seat seat,
+            SeatInfo seat,
             ScreeningSeatStatus status,
             Instant lockedAt,
             int version
@@ -33,6 +32,7 @@ public final class ScreeningSeat {
     }
 
     public void lock(Clock clock) {
+        Objects.requireNonNull(clock, "Clock cannot be null");
         if (!isAvailable()) {
             if (isReserved()) {
                 throw new SeatNotAvailableException("Seat is already reserved");
@@ -41,25 +41,20 @@ public final class ScreeningSeat {
         }
 
         this.status = ScreeningSeatStatus.LOCKED;
-        this.lockedAt = Instant.now(clock);
+        this.lockedAt = clock.instant();
     }
 
-
     public void reserve(Duration timeout, Clock clock) {
+        Objects.requireNonNull(clock, "Clock cannot be null");
         if (!isLocked()) {
             if (isReserved()) {
-                throw new SeatNotAvailableException(
-                        "Seat " + seat.getSeatPosition() + " is already reserved"
-                );
+                throw new SeatNotAvailableException("Seat " + seat.position() + " is already reserved");
             }
-
-            throw new SeatNotAvailableException(
-                    "Seat " + seat.getSeatPosition() + " must be locked before reservation"
-            );
+            throw new SeatNotAvailableException("Seat " + seat.position() + " must be locked before reservation");
         }
 
         if (isLockExpired(timeout, clock)) {
-            throw new SeatNotAvailableException("Lock for seat " + seat.getSeatPosition() + " has expired");
+            throw new SeatNotAvailableException("Lock for seat " + seat.position() + " has expired");
         }
 
         this.status = ScreeningSeatStatus.RESERVED;
@@ -76,16 +71,17 @@ public final class ScreeningSeat {
     }
 
     public boolean isLockExpired(Duration timeout, Clock clock) {
+        Objects.requireNonNull(clock, "Clock cannot be null");
         return isLocked()
                 && lockedAt != null
-                && Instant.now(clock).isAfter(lockedAt.plus(timeout));
+                && clock.instant().isAfter(lockedAt.plus(timeout));
     }
 
     public ScreeningSeatId getId() {
         return id;
     }
 
-    public Seat getSeat() {
+    public SeatInfo getSeat() {
         return seat;
     }
 
@@ -100,6 +96,7 @@ public final class ScreeningSeat {
     public int getVersion() {
         return version;
     }
+
     public void incrementVersion() {
         this.version++;
     }
@@ -107,13 +104,14 @@ public final class ScreeningSeat {
     public boolean isAvailable() {
         return status == ScreeningSeatStatus.AVAILABLE;
     }
+
     public boolean isLocked() {
         return status == ScreeningSeatStatus.LOCKED;
     }
+
     public boolean isReserved() {
         return status == ScreeningSeatStatus.RESERVED;
     }
-
 
     private void validateState() {
         if (status == ScreeningSeatStatus.LOCKED && lockedAt == null) {

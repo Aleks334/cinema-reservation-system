@@ -6,14 +6,14 @@ import com.cinema.shared.QueryBus;
 import com.cinema.ticketing.application.command.LockSeatCommand;
 import com.cinema.ticketing.application.command.ReserveSeatCommand;
 import com.cinema.ticketing.application.query.GetScreeningQuery;
+import com.cinema.ticketing.application.query.GetScreeningsForMovieQuery;
 import com.cinema.ticketing.application.query.dto.ScreeningDto;
-import com.cinema.ticketing.domain.exception.ScreeningNotFoundException;
-import com.cinema.ticketing.domain.model.ScreeningId;
-import com.cinema.ticketing.domain.model.ScreeningSeatId;
 import com.google.inject.Inject;
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.openapi.*;
+
+import java.util.List;
 
 public final class ScreeningController implements Controller {
     private final QueryBus queryBus;
@@ -29,6 +29,8 @@ public final class ScreeningController implements Controller {
     public void register(Javalin app) {
         app.get("/api/screenings/{id}",
                 this::getScreeningById);
+        app.get("/api/movies/{movieId}/screenings",
+                this::getScreeningsForMovie);
         app.post("/api/screenings/{screeningId}/seats/{seatId}/lock",
                 this::lockSeat);
         app.post("/api/screenings/{screeningId}/seats/{seatId}/reserve",
@@ -50,14 +52,30 @@ public final class ScreeningController implements Controller {
             }
     )
     private void getScreeningById(Context ctx) {
-        ScreeningId screeningId = ScreeningId.from(ctx.pathParam("id"));
+        String screeningId = ctx.pathParam("id");
 
-        ScreeningDto screening = queryBus.execute(new GetScreeningQuery(screeningId))
-                .orElseThrow(() -> new ScreeningNotFoundException(
-                        "Screening with ID " + screeningId + " not found"
-                ));
+        ScreeningDto screening = queryBus.execute(new GetScreeningQuery(screeningId));
 
         ctx.json(screening);
+    }
+
+    @OpenApi(
+            path = "/api/movies/{movieId}/screenings",
+            methods = HttpMethod.GET,
+            summary = "Get screenings for movie",
+            description = "Retrieves all screenings for a specific movie",
+            pathParams = {
+                    @OpenApiParam(name = "movieId", description = "Movie UUID", required = true)
+            },
+            responses = {
+                    @OpenApiResponse(status = "200",
+                            content = @OpenApiContent(from = ScreeningDto[].class))
+            }
+    )
+    private void getScreeningsForMovie(Context ctx) {
+        String movieId = ctx.pathParam("movieId");
+        List<ScreeningDto> screenings = queryBus.execute(new GetScreeningsForMovieQuery(movieId));
+        ctx.json(screenings);
     }
 
     @OpenApi(
@@ -76,8 +94,8 @@ public final class ScreeningController implements Controller {
             }
     )
     private void lockSeat(Context ctx) {
-        ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
-        ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
+        String screeningId = ctx.pathParam("screeningId");
+        String screeningSeatId = ctx.pathParam("seatId");
 
         commandBus.dispatch(new LockSeatCommand(screeningId, screeningSeatId));
         ctx.status(204);
@@ -99,8 +117,8 @@ public final class ScreeningController implements Controller {
             }
     )
     private void reserveSeat(Context ctx) {
-        ScreeningId screeningId = ScreeningId.from(ctx.pathParam("screeningId"));
-        ScreeningSeatId screeningSeatId = ScreeningSeatId.from(ctx.pathParam("seatId"));
+        String screeningId = ctx.pathParam("screeningId");
+        String screeningSeatId = ctx.pathParam("seatId");
 
         commandBus.dispatch(new ReserveSeatCommand(screeningId, screeningSeatId));
         ctx.status(204);

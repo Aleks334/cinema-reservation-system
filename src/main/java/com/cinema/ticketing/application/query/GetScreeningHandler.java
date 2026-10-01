@@ -2,13 +2,14 @@ package com.cinema.ticketing.application.query;
 
 import com.cinema.ticketing.application.query.dto.ScreeningDto;
 import com.cinema.shared.QueryHandler;
+import com.cinema.ticketing.domain.exception.ScreeningNotFoundException;
+import com.cinema.ticketing.domain.model.ScreeningId;
 import com.cinema.ticketing.domain.port.ScreeningRepository;
 import com.google.inject.Inject;
 
 import java.util.Objects;
-import java.util.Optional;
 
-public class GetScreeningHandler implements QueryHandler<GetScreeningQuery, Optional<ScreeningDto>> {
+public class GetScreeningHandler implements QueryHandler<GetScreeningQuery, ScreeningDto> {
 
     private final ScreeningRepository repository;
 
@@ -18,9 +19,12 @@ public class GetScreeningHandler implements QueryHandler<GetScreeningQuery, Opti
     }
 
     @Override
-    public Optional<ScreeningDto> handle(GetScreeningQuery query) {
+    public ScreeningDto handle(GetScreeningQuery query) {
         Objects.requireNonNull(query.screeningId());
-        return repository.findById(query.screeningId())
-                .map(ScreeningDto::of);
+        return repository.findById(ScreeningId.from(query.screeningId()))
+                .map(ScreeningDto::of)
+                .orElseThrow(() -> new ScreeningNotFoundException(
+                        "Screening with ID " + query.screeningId() + " not found"
+                ));
     }
 }
