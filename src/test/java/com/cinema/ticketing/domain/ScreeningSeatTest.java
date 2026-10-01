@@ -1,4 +1,4 @@
-package com.cinema.domain.model;
+package com.cinema.ticketing.domain;
 
 import com.cinema.ticketing.domain.exception.SeatAlreadyLockedException;
 import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
 import java.time.Duration;
-import static com.cinema.domain.model.fixtures.ScreeningSeatFixture.*;
+import static com.cinema.ticketing.domain.fixtures.ScreeningSeatFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

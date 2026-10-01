@@ -1,8 +1,8 @@
-package com.cinema.domain.model;
+package com.cinema.facility.domain;
 
 import com.cinema.facility.domain.model.SeatType;
-import com.cinema.domain.model.fixtures.RoomFixture;
-import com.cinema.domain.model.fixtures.SeatFixture;
+import com.cinema.facility.domain.fixtures.RoomFixture;
+import com.cinema.facility.domain.fixtures.SeatFixture;
 import com.cinema.facility.domain.model.RoomId;
 import com.cinema.facility.domain.model.Seat;
 import org.junit.jupiter.api.Test;

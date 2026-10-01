@@ -1,11 +1,11 @@
-package com.cinema.domain.model;
+package com.cinema.catalog.domain;
 
 import com.cinema.catalog.domain.model.Movie;
 import com.cinema.catalog.domain.model.MovieGenre;
 import com.cinema.catalog.domain.model.MovieId;
 import org.junit.jupiter.api.Test;
 
-import static com.cinema.domain.model.fixtures.MovieFixture.*;
+import static com.cinema.catalog.domain.fixtures.MovieFixture.*;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class MovieTest {

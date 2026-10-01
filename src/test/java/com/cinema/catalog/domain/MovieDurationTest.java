@@ -1,4 +1,4 @@
-package com.cinema.domain.model;
+package com.cinema.catalog.domain;
 
 import com.cinema.catalog.domain.exception.InvalidDurationException;
 import com.cinema.catalog.domain.model.MovieDuration;

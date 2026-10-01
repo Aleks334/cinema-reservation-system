@@ -1,4 +1,4 @@
-package com.cinema.domain.model.fixtures;
+package com.cinema.catalog.domain.fixtures;
 
 import com.cinema.catalog.domain.model.Movie;
 import com.cinema.catalog.domain.model.MovieGenre;

@@ -1,4 +1,4 @@
-package com.cinema.domain.model;
+package com.cinema.facility.domain;
 
 import com.cinema.catalog.domain.model.Director;
 import org.junit.jupiter.api.Test;

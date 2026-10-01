@@ -1,4 +1,4 @@
-package com.cinema.domain.model.fixtures;
+package com.cinema.facility.domain.fixtures;
 
 import com.cinema.facility.domain.model.SeatType;
 import com.cinema.facility.domain.model.Seat;

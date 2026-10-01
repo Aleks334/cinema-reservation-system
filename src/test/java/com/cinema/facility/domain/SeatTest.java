@@ -1,4 +1,4 @@
-package com.cinema.domain.model;
+package com.cinema.facility.domain;
 
 import com.cinema.facility.domain.model.Seat;
 import com.cinema.facility.domain.model.SeatType;
@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static com.cinema.domain.model.fixtures.SeatFixture.seat;
+import static com.cinema.facility.domain.fixtures.SeatFixture.seat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

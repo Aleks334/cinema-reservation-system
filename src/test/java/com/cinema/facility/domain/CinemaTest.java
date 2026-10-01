@@ -1,4 +1,4 @@
-package com.cinema.domain.model;
+package com.cinema.facility.domain;
 
 import com.cinema.facility.domain.model.Cinema;
 import com.cinema.facility.domain.model.CinemaId;
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static com.cinema.domain.model.fixtures.RoomFixture.room;
-import static com.cinema.domain.model.fixtures.CinemaFixture.cinema;
+import static com.cinema.facility.domain.fixtures.RoomFixture.room;
+import static com.cinema.facility.domain.fixtures.CinemaFixture.cinema;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

@@ -1,4 +1,4 @@
-package com.cinema.domain.model;
+package com.cinema.ticketing.domain;
 
 import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
 import com.cinema.ticketing.domain.model.Screening;
@@ -10,8 +10,8 @@ import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
-import static com.cinema.domain.model.fixtures.ScreeningFixture.*;
-import static com.cinema.domain.model.fixtures.ScreeningSeatFixture.anyAvailableSeat;
+import static com.cinema.ticketing.domain.fixtures.ScreeningFixture.*;
+import static com.cinema.ticketing.domain.fixtures.ScreeningSeatFixture.anyAvailableSeat;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

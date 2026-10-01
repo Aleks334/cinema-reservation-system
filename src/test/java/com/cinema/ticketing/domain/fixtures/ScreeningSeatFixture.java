@@ -1,4 +1,4 @@
-package com.cinema.domain.model.fixtures;
+package com.cinema.ticketing.domain.fixtures;
 
 import com.cinema.ticketing.domain.model.ScreeningSeat;
 import com.cinema.ticketing.domain.model.ScreeningSeatStatus;
