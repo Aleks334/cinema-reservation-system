@@ -11,6 +11,7 @@ import com.google.inject.Inject;
 
 import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 
 public class ReserveSeatHandler implements CommandHandler<ReserveSeatCommand> {
@@ -35,7 +36,8 @@ public class ReserveSeatHandler implements CommandHandler<ReserveSeatCommand> {
         Screening screening = repository.findById(screeningId)
                 .orElseThrow(() -> new ScreeningNotFoundException("Screening with ID " + cmd.screeningId() + " not found"));
 
-        screening.reserveSeat(ScreeningSeatId.from(cmd.screeningSeatId()), lockTimeout, clock);
+        Instant now = clock.instant();
+        screening.reserveSeat(ScreeningSeatId.from(cmd.screeningSeatId()), lockTimeout, now);
 
         repository.save(screening);
     }

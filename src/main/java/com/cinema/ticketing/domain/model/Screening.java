@@ -2,8 +2,8 @@ package com.cinema.ticketing.domain.model;
 
 import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
 
-import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.function.Function;
@@ -31,21 +31,21 @@ public final class Screening {
                 .collect(Collectors.toMap(ScreeningSeat::getId, Function.identity()));
     }
 
-    public void lockSeat(ScreeningSeatId seatId, Duration lockTimeout, Clock clock) {
+    public void lockSeat(ScreeningSeatId seatId, Duration lockTimeout, Instant now) {
         ScreeningSeat seat = getSeatOrThrow(seatId);
 
-        if (seat.isLocked() && seat.isLockExpired(lockTimeout, clock)) {
+        if (seat.isLocked() && seat.isLockExpired(lockTimeout, now)) {
             seat.release();
         }
 
-        seat.lock(clock);
+        seat.lock(now);
         markAsDirty(seatId);
     }
 
-    public void reserveSeat(ScreeningSeatId seatId, Duration lockTimeout, Clock clock) {
+    public void reserveSeat(ScreeningSeatId seatId, Duration lockTimeout, Instant now) {
         ScreeningSeat seat = getSeatOrThrow(seatId);
 
-        seat.reserve(lockTimeout, clock);
+        seat.reserve(lockTimeout, now);
         markAsDirty(seatId);
     }
 

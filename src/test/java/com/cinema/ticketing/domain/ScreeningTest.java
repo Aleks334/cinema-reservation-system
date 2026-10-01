@@ -6,10 +6,10 @@ import com.cinema.ticketing.domain.model.ScreeningSeat;
 import com.cinema.ticketing.domain.model.ScreeningSeatId;
 import org.junit.jupiter.api.Test;
 
-import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+
 import static com.cinema.ticketing.domain.fixtures.ScreeningFixture.*;
 import static com.cinema.ticketing.domain.fixtures.ScreeningSeatFixture.anyAvailableSeat;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -24,7 +24,7 @@ class ScreeningTest {
         Screening screening = anyScreening(List.of(seat));
 
         // when
-        screening.lockSeat(seat.getId(), TIMEOUT, FIXED_CLOCK);
+        screening.lockSeat(seat.getId(), TIMEOUT, NOW);
 
         // then
         assertThat(screening.getModifiedSeats()).containsExactly(seat);
@@ -36,11 +36,11 @@ class ScreeningTest {
         // given
         ScreeningSeat seat = anyAvailableSeat("B", "10");
         Screening screening = anyScreening(List.of(seat));
-        screening.lockSeat(seat.getId(), TIMEOUT, FIXED_CLOCK);
+        screening.lockSeat(seat.getId(), TIMEOUT, NOW);
         screening.clearModifiedSeats();
 
         // when
-        screening.reserveSeat(seat.getId(), TIMEOUT, FIXED_CLOCK);
+        screening.reserveSeat(seat.getId(), TIMEOUT, NOW);
 
         // then
         assertThat(screening.getModifiedSeats()).containsExactly(seat);
@@ -52,7 +52,7 @@ class ScreeningTest {
         // given
         ScreeningSeat seat = anyAvailableSeat("B", "10");
         Screening screening = anyScreening(List.of(seat));
-        screening.lockSeat(seat.getId(), TIMEOUT, FIXED_CLOCK);
+        screening.lockSeat(seat.getId(), TIMEOUT, NOW);
         screening.clearModifiedSeats();
 
         // when
@@ -67,16 +67,16 @@ class ScreeningTest {
     void shouldImplicitlyReleaseAndRelockIfSeatLockWasExpired() {
         // given
         ScreeningSeat seat = anyAvailableSeat("B", "10");
-        seat.lock(FIXED_CLOCK);
+        seat.lock(NOW);
         Screening screening = anyScreening(List.of(seat));
-        Clock expiredTimeClock = Clock.offset(FIXED_CLOCK, Duration.ofMinutes(15));
+        Instant expiredTime = NOW.plus(Duration.ofMinutes(15));
 
         // when
-        screening.lockSeat(seat.getId(), TIMEOUT, expiredTimeClock);
+        screening.lockSeat(seat.getId(), TIMEOUT, expiredTime);
 
         // then
         assertThat(seat.isLocked()).isTrue();
-        assertThat(seat.getLockedAt()).isEqualTo(Instant.now(expiredTimeClock));
+        assertThat(seat.getLockedAt()).isEqualTo(expiredTime);
         assertThat(screening.getModifiedSeats()).containsExactly(seat);
     }
 
@@ -87,7 +87,7 @@ class ScreeningTest {
         ScreeningSeatId nonExistentScreeningSeatId = ScreeningSeatId.generate();
 
         // when & then
-        assertThatThrownBy(() -> screening.lockSeat(nonExistentScreeningSeatId, TIMEOUT, FIXED_CLOCK))
+        assertThatThrownBy(() -> screening.lockSeat(nonExistentScreeningSeatId, TIMEOUT, NOW))
                 .isInstanceOf(SeatNotAvailableException.class)
                 .hasMessageContaining("not found");
     }
@@ -98,7 +98,7 @@ class ScreeningTest {
         ScreeningSeat seat1 = anyAvailableSeat("A", "1");
         ScreeningSeat seat2 = anyAvailableSeat("A", "2");
         Screening screening = anyScreening(List.of(seat1, seat2));
-        screening.lockSeat(seat1.getId(), TIMEOUT, FIXED_CLOCK);
+        screening.lockSeat(seat1.getId(), TIMEOUT, NOW);
 
         // when
         List<ScreeningSeat> available = screening.getAvailableSeats();

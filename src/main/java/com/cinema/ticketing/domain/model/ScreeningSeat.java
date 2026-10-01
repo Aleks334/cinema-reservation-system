@@ -3,7 +3,6 @@ package com.cinema.ticketing.domain.model;
 import com.cinema.ticketing.domain.exception.SeatAlreadyLockedException;
 import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
 
-import java.time.Clock;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Objects;
@@ -31,8 +30,7 @@ public final class ScreeningSeat {
         validateState();
     }
 
-    public void lock(Clock clock) {
-        Objects.requireNonNull(clock, "Clock cannot be null");
+    public void lock(Instant now) {
         if (!isAvailable()) {
             if (isReserved()) {
                 throw new SeatNotAvailableException("Seat is already reserved");
@@ -41,11 +39,10 @@ public final class ScreeningSeat {
         }
 
         this.status = ScreeningSeatStatus.LOCKED;
-        this.lockedAt = clock.instant();
+        this.lockedAt = Objects.requireNonNull(now, "Instant 'now' cannot be null");
     }
 
-    public void reserve(Duration timeout, Clock clock) {
-        Objects.requireNonNull(clock, "Clock cannot be null");
+    public void reserve(Duration timeout, Instant now) {
         if (!isLocked()) {
             if (isReserved()) {
                 throw new SeatNotAvailableException("Seat " + seat.position() + " is already reserved");
@@ -53,7 +50,7 @@ public final class ScreeningSeat {
             throw new SeatNotAvailableException("Seat " + seat.position() + " must be locked before reservation");
         }
 
-        if (isLockExpired(timeout, clock)) {
+        if (isLockExpired(timeout, now)) {
             throw new SeatNotAvailableException("Lock for seat " + seat.position() + " has expired");
         }
 
@@ -70,11 +67,10 @@ public final class ScreeningSeat {
         this.lockedAt = null;
     }
 
-    public boolean isLockExpired(Duration timeout, Clock clock) {
-        Objects.requireNonNull(clock, "Clock cannot be null");
+    public boolean isLockExpired(Duration timeout, Instant now) {
         return isLocked()
                 && lockedAt != null
-                && clock.instant().isAfter(lockedAt.plus(timeout));
+                && now.isAfter(lockedAt.plus(timeout));
     }
 
     public ScreeningSeatId getId() {

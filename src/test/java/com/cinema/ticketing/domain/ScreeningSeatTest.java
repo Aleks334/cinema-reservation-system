@@ -5,8 +5,9 @@ import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
 import com.cinema.ticketing.domain.model.ScreeningSeat;
 import org.junit.jupiter.api.Test;
 
-import java.time.Clock;
 import java.time.Duration;
+import java.time.Instant;
+
 import static com.cinema.ticketing.domain.fixtures.ScreeningSeatFixture.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -19,7 +20,7 @@ class ScreeningSeatTest {
         ScreeningSeat seat = anyAvailableSeat("A", "1");
 
         // when
-        seat.lock(FIXED_CLOCK);
+        seat.lock(NOW);
 
         // then
         assertThat(seat.isLocked()).isTrue();
@@ -30,10 +31,10 @@ class ScreeningSeatTest {
     void shouldFailToLockAlreadyLockedSeat() {
         // given
         ScreeningSeat seat = anyAvailableSeat("A", "1");
-        seat.lock(FIXED_CLOCK);
+        seat.lock(NOW);
 
         // when & then
-        assertThatThrownBy(() -> seat.lock(FIXED_CLOCK))
+        assertThatThrownBy(() -> seat.lock(NOW))
                 .isInstanceOf(SeatAlreadyLockedException.class);
     }
 
@@ -41,12 +42,12 @@ class ScreeningSeatTest {
     void shouldTransitionFromLockedToReservedBeforeTimeout() {
         // given
         ScreeningSeat seat = anyAvailableSeat("A", "1");
-        seat.lock(FIXED_CLOCK);
+        seat.lock(NOW);
 
         // when
-        seat.reserve(TIMEOUT, FIXED_CLOCK);
+        seat.reserve(TIMEOUT, NOW);
 
-        // Then
+        // then
         assertThat(seat.isReserved()).isTrue();
         assertThat(seat.getLockedAt()).isNull();
     }
@@ -55,11 +56,11 @@ class ScreeningSeatTest {
     void shouldRecognizeExpiredLock() {
         // given
         ScreeningSeat seat = anyAvailableSeat("A", "1");
-        seat.lock(FIXED_CLOCK);
-        Clock futureClock = Clock.offset(FIXED_CLOCK, Duration.ofMinutes(11));
+        seat.lock(NOW);
+        Instant futureTime = NOW.plus(Duration.ofMinutes(11));
 
         // when
-        boolean isLockExpired = seat.isLockExpired(TIMEOUT, futureClock);
+        boolean isLockExpired = seat.isLockExpired(TIMEOUT, futureTime);
 
         // then
         assertThat(isLockExpired).isTrue();
@@ -69,11 +70,11 @@ class ScreeningSeatTest {
     void shouldFailToReserveIfLockIsExpired() {
         // given
         ScreeningSeat seat = anyAvailableSeat("A", "1");
-        seat.lock(FIXED_CLOCK);
-        Clock futureClock = Clock.offset(FIXED_CLOCK, Duration.ofMinutes(11));
+        seat.lock(NOW);
+        Instant futureTime = NOW.plus(Duration.ofMinutes(11));
 
         // when & then
-        assertThatThrownBy(() -> seat.reserve(TIMEOUT, futureClock))
+        assertThatThrownBy(() -> seat.reserve(TIMEOUT, futureTime))
                 .isInstanceOf(SeatNotAvailableException.class)
                 .hasMessageContaining("expired");
     }
@@ -82,7 +83,7 @@ class ScreeningSeatTest {
     void shouldSuccessfullyReleaseLockedSeat() {
         // given
         ScreeningSeat seat = anyAvailableSeat("A", "1");
-        seat.lock(FIXED_CLOCK);
+        seat.lock(NOW);
 
         // when
         seat.release();
@@ -98,7 +99,7 @@ class ScreeningSeatTest {
         ScreeningSeat seat = anyAvailableSeat("A", "1");
 
         // when & then
-        assertThatThrownBy(() -> seat.reserve(TIMEOUT, FIXED_CLOCK))
+        assertThatThrownBy(() -> seat.reserve(TIMEOUT, NOW))
                 .isInstanceOf(SeatNotAvailableException.class)
                 .hasMessageContaining("must be locked before reservation");
     }
@@ -107,8 +108,8 @@ class ScreeningSeatTest {
     void shouldFailToReleaseReservedSeat() {
         // given
         ScreeningSeat seat = anyAvailableSeat("A", "1");
-        seat.lock(FIXED_CLOCK);
-        seat.reserve(TIMEOUT, FIXED_CLOCK);
+        seat.lock(NOW);
+        seat.reserve(TIMEOUT, NOW);
 
         // when & then
         assertThatThrownBy(seat::release)
