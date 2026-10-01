@@ -38,6 +38,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.5.1")
 }
 
 application {
