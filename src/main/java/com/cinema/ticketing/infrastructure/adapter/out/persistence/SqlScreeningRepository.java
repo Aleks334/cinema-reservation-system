@@ -79,6 +79,9 @@ public final class SqlScreeningRepository implements ScreeningRepository {
             updateScreeningSeats(screening);
 
             connection.commit();
+
+            screening.clearModifiedSeats();
+
             LOGGER.debug("Saved screening: {}", screening.getId());
         } catch (SQLException e) {
             rollback();

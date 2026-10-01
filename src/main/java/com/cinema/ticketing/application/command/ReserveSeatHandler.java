@@ -38,6 +38,5 @@ public class ReserveSeatHandler implements CommandHandler<ReserveSeatCommand> {
         screening.reserveSeat(ScreeningSeatId.from(cmd.screeningSeatId()), lockTimeout, clock);
 
         repository.save(screening);
-        screening.clearModifiedSeats();
     }
 }

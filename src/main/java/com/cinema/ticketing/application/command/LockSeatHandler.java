@@ -38,6 +38,5 @@ public class LockSeatHandler implements CommandHandler<LockSeatCommand> {
         screening.lockSeat(ScreeningSeatId.from(cmd.screeningSeatId()), lockTimeout, clock);
 
         repository.save(screening);
-        screening.clearModifiedSeats();
     }
 }
