@@ -1,6 +1,7 @@
 package com.cinema.ticketing.application.command;
 
 import com.cinema.shared.CommandHandler;
+import com.cinema.shared.LockTimeout;
 import com.cinema.ticketing.domain.exception.ScreeningNotFoundException;
 import com.cinema.ticketing.domain.model.Screening;
 import com.cinema.ticketing.domain.model.ScreeningId;
@@ -19,7 +20,7 @@ public class ReserveSeatHandler implements CommandHandler<ReserveSeatCommand> {
     private final Clock clock;
 
     @Inject
-    public ReserveSeatHandler(ScreeningRepository repository, Duration lockTimeout, Clock clock) {
+    public ReserveSeatHandler(ScreeningRepository repository, @LockTimeout Duration lockTimeout, Clock clock) {
         this.repository = Objects.requireNonNull(repository);
         this.lockTimeout = Objects.requireNonNull(lockTimeout);
         this.clock = Objects.requireNonNull(clock);

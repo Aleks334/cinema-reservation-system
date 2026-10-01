@@ -5,6 +5,7 @@ import com.cinema.bootstrap.config.bus.InMemoryQueryBus;
 import com.cinema.bootstrap.config.web.GlobalExceptionHandlerMapper;
 import com.cinema.shared.CommandBus;
 import com.cinema.shared.ExceptionHandlerMapper;
+import com.cinema.shared.LockTimeout;
 import com.cinema.shared.QueryBus;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -35,7 +36,7 @@ public class BaseModule extends AbstractModule {
         return new AppConfig();
     }
 
-    @Provides
+    @Provides @LockTimeout
     private static Duration provideLockTimeout(AppConfig appConfig) {
         return appConfig.getLockTimeout();
     }
