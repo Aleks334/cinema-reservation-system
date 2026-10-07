@@ -1,9 +1,9 @@
 package com.cinema.bootstrap.config;
 
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,7 +14,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Collectors;
 
-@Singleton
 public class DatabaseConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(DatabaseConfig.class);
     private static Connection connection;

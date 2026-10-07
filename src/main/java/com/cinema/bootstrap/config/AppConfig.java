@@ -1,6 +1,6 @@
 package com.cinema.bootstrap.config;
 
-import com.google.inject.Singleton;
+import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.io.IOException;
@@ -9,7 +9,6 @@ import java.time.Duration;
 import java.util.Optional;
 import java.util.Properties;
 
-@Singleton
 public final class AppConfig {
     private static final Logger LOGGER = LoggerFactory.getLogger(AppConfig.class);
     private static final String DEFAULT_ENVIRONMENT = "dev";
@@ -17,6 +16,7 @@ public final class AppConfig {
     private final Properties properties;
     private final String environment;
 
+    @Inject
     public AppConfig() {
         this.environment = resolveEnvironment();
         this.properties = loadProperties();

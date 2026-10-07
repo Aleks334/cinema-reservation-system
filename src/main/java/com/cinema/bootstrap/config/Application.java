@@ -5,7 +5,6 @@ import com.cinema.shared.ExceptionHandlerMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import io.javalin.Javalin;
 import io.javalin.json.JavalinJackson;
 import io.javalin.openapi.plugin.OpenApiPlugin;
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Set;
 
-@Singleton
 public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
     private final AppConfig appConfig;

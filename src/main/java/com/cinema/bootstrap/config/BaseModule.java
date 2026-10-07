@@ -9,6 +9,7 @@ import com.cinema.shared.LockTimeout;
 import com.cinema.shared.QueryBus;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
 
 import java.sql.Connection;
@@ -22,6 +23,10 @@ public class BaseModule extends AbstractModule {
         bind(CommandBus.class).to(InMemoryCommandBus.class);
         bind(QueryBus.class).to(InMemoryQueryBus.class);
 
+        bind(Application.class).in(Singleton.class);
+        bind(AppConfig.class).in(Singleton.class);
+        bind(DatabaseConfig.class).in(Singleton.class);
+
         Multibinder<ExceptionHandlerMapper> exceptionBinder = Multibinder.newSetBinder(binder(), ExceptionHandlerMapper.class);
         exceptionBinder.addBinding().toInstance(new GlobalExceptionHandlerMapper());
     }
@@ -31,19 +36,9 @@ public class BaseModule extends AbstractModule {
         return Clock.systemUTC();
     }
 
-    @Provides
-    private static AppConfig provideAppConfig() {
-        return new AppConfig();
-    }
-
     @Provides @LockTimeout
     private static Duration provideLockTimeout(AppConfig appConfig) {
         return appConfig.getLockTimeout();
-    }
-
-    @Provides
-    private static DatabaseConfig provideDatabaseConfig(AppConfig appConfig) {
-        return new DatabaseConfig(appConfig);
     }
 
     @Provides

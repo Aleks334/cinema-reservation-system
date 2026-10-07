@@ -1,14 +1,12 @@
 package com.cinema.bootstrap.config.bus;
 
 import com.cinema.shared.Query;
-import com.cinema.shared.QueryHandler;
 import com.cinema.shared.QueryBus;
+import com.cinema.shared.QueryHandler;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 
 import java.util.Map;
 
-@Singleton
 public class InMemoryQueryBus implements QueryBus {
     private final Map<Class<? extends Query<?>>, QueryHandler<?, ?>> queryHandlers;
 
