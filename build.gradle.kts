@@ -38,6 +38,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation("com.tngtech.archunit:archunit-junit5:1.5.1")
 }
 
 application {
@@ -52,5 +53,5 @@ tasks.register<JavaExec>("seedDb") {
     group = "application"
     description = "Seeds the database with sample data"
     classpath = sourceSets["main"].runtimeClasspath
-    mainClass.set("com.cinema.infrastructure.config.DatabaseSeeder")
+    mainClass.set("com.cinema.bootstrap.config.DatabaseSeeder")
 }
