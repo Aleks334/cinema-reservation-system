@@ -1,10 +1,10 @@
 package com.cinema.catalog.infrastructure.config;
 
 import com.cinema.catalog.application.query.*;
-import com.cinema.catalog.domain.port.MovieRepository;
+import com.cinema.catalog.application.query.port.MovieReadRepository;
 import com.cinema.catalog.infrastructure.adapter.in.web.CatalogExceptionHandlerMapper;
 import com.cinema.catalog.infrastructure.adapter.in.web.MovieController;
-import com.cinema.catalog.infrastructure.adapter.out.persistence.SqlMovieRepository;
+import com.cinema.catalog.infrastructure.adapter.out.persistence.SqlMovieReadRepository;
 import com.cinema.shared.Controller;
 import com.cinema.shared.ExceptionHandlerMapper;
 import com.cinema.shared.Query;
@@ -26,7 +26,7 @@ public class CatalogModule extends AbstractModule {
         queryBinder.addBinding(GetMovieQuery.class).to(GetMovieHandler.class);
         queryBinder.addBinding(GetAllMoviesQuery.class).to(GetAllMoviesHandler.class);
 
-        bind(MovieRepository.class).to(SqlMovieRepository.class);
+        bind(MovieReadRepository.class).to(SqlMovieReadRepository.class);
 
         Multibinder<Controller> controllerBinder = Multibinder.newSetBinder(binder(), Controller.class);
         controllerBinder.addBinding().to(MovieController.class);
