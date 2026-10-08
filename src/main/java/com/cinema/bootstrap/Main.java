@@ -10,8 +10,6 @@ import com.google.inject.Injector;
 import com.google.inject.util.Modules;
 
 public final class Main {
-    private Main() {}
-
     public static void main(String[] args) {
         Injector injector = Guice.createInjector(
                 Modules.requireAtInjectOnConstructorsModule(),
