@@ -11,7 +11,7 @@ import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -19,11 +19,11 @@ import java.util.Optional;
 public final class SqlScreeningRepository implements ScreeningRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlScreeningRepository.class);
-    private final Connection connection;
+    private final DataSource dataSource;
 
     @Inject
-    public SqlScreeningRepository(Connection connection) {
-        this.connection = connection;
+    public SqlScreeningRepository(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -37,7 +37,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
                       WHERE s.id = ?;
                       """;
 
-        try (var stmt = connection.prepareStatement(sql)) {
+        try (var conn = dataSource.getConnection(); var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, screeningId.toString());
 
             try (var rs = stmt.executeQuery()) {
@@ -60,7 +60,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
                       ORDER BY s.start_date_time;
                       """;
 
-        try (var stmt = connection.prepareStatement(sql)) {
+        try (var conn = dataSource.getConnection(); var stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, movieId.toString());
 
             try (var rs = stmt.executeQuery()) {
@@ -73,12 +73,12 @@ public final class SqlScreeningRepository implements ScreeningRepository {
 
     @Override
     public void save(Screening screening) {
-        try {
-            connection.setAutoCommit(false);
+        try(var conn = dataSource.getConnection()) {
+            conn.setAutoCommit(false);
 
             updateScreeningSeats(screening);
 
-            connection.commit();
+            conn.commit();
 
             screening.clearModifiedSeats();
 
@@ -87,8 +87,8 @@ public final class SqlScreeningRepository implements ScreeningRepository {
             rollback();
             throw new RuntimeException("Failed to save screening: " + screening.getId(), e);
         } finally {
-            try {
-                connection.setAutoCommit(true);
+            try(var conn = dataSource.getConnection()) {
+                conn.setAutoCommit(true);
             } catch (SQLException e) {
                 LOGGER.error("Failed to reset auto-commit", e);
             }
@@ -109,7 +109,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
                       WHERE id = ? AND version = ?;
                       """;
 
-        try (var stmt = connection.prepareStatement(sql)) {
+        try (var conn = dataSource.getConnection(); var stmt = conn.prepareStatement(sql)) {
             for (ScreeningSeat seat : modifiedSeats) {
                 stmt.setString(1, seat.getStatus().name());
 
@@ -137,8 +137,8 @@ public final class SqlScreeningRepository implements ScreeningRepository {
     }
 
     private void rollback() {
-        try {
-            connection.rollback();
+        try(var conn = dataSource.getConnection()) {
+            conn.rollback();
         } catch (SQLException e) {
             LOGGER.error("Failed to rollback transaction", e);
         }

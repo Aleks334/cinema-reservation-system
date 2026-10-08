@@ -1,19 +1,16 @@
 package com.cinema.catalog.infrastructure.adapter.out.persistence;
 
-import com.cinema.catalog.domain.port.MovieRepository;
 import com.cinema.catalog.domain.model.Movie;
 import com.cinema.catalog.domain.model.MovieId;
+import com.cinema.catalog.domain.port.MovieRepository;
 import com.cinema.catalog.infrastructure.adapter.out.persistence.mapping.MovieMapper;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.sql.Connection;
+
+import javax.sql.DataSource;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class SqlMovieRepository implements MovieRepository {
@@ -21,8 +18,8 @@ public final class SqlMovieRepository implements MovieRepository {
     private final Map<UUID, Movie> cache = new ConcurrentHashMap<>();
 
     @Inject
-    public SqlMovieRepository(Connection connection) {
-        loadAllMoviesIntoCache(connection);
+    public SqlMovieRepository(DataSource dataSource) {
+        loadAllMoviesIntoCache(dataSource);
     }
 
     @Override
@@ -35,14 +32,14 @@ public final class SqlMovieRepository implements MovieRepository {
         return new ArrayList<>(cache.values());
     }
 
-    private void loadAllMoviesIntoCache(Connection conn) {
+    private void loadAllMoviesIntoCache(DataSource ds) {
         String sql = """
                       SELECT id, title, director_first_name, director_last_name,
                              description, genre, duration_minutes
                       FROM movies;
                       """;
 
-        try (var stmt = conn.createStatement();
+        try (var conn = ds.getConnection(); var stmt = conn.createStatement();
              var rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {

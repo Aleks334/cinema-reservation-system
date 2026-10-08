@@ -10,6 +10,8 @@ import com.cinema.facility.domain.model.SeatType;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,8 +27,8 @@ public final class SqlCinemaRepository implements CinemaRepository {
     private final Map<UUID, Cinema> cache = new ConcurrentHashMap<>();
 
     @Inject
-    public SqlCinemaRepository(Connection connection) {
-        loadAllCinemasIntoCache(connection);
+    public SqlCinemaRepository(DataSource dataSource) {
+        loadAllCinemasIntoCache(dataSource);
     }
 
     @Override
@@ -34,8 +36,8 @@ public final class SqlCinemaRepository implements CinemaRepository {
         return Optional.ofNullable(cache.get(cinemaId.value()));
     }
 
-    private void loadAllCinemasIntoCache(Connection conn) {
-        try {
+    private void loadAllCinemasIntoCache(DataSource ds) {
+        try(var conn = ds.getConnection()) {
             Map<UUID, Cinema> cinemas = new HashMap<>();
             Map<UUID, List<Room>> cinemaRooms = new HashMap<>();
             Map<UUID, List<Seat>> roomSeats = new HashMap<>();
@@ -47,11 +49,11 @@ public final class SqlCinemaRepository implements CinemaRepository {
             cache.putAll(cinemas);
             LOGGER.debug("Loaded {} cinemas into cache", cache.size());
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to load cinemas from database", e);
+            throw new RuntimeException("Failed to access database", e);
         }
     }
 
-    private void loadSeats(Connection conn, Map<UUID, List<Seat>> roomSeats) throws SQLException {
+    private void loadSeats(Connection conn, Map<UUID, List<Seat>> roomSeats) {
         String sql = """
                       SELECT room_id, row, number, seat_type
                       FROM seats;
@@ -70,11 +72,13 @@ public final class SqlCinemaRepository implements CinemaRepository {
 
                 roomSeats.computeIfAbsent(roomId, k -> new ArrayList<>()).add(seat);
             }
+        } catch(SQLException e) {
+            throw new RuntimeException("Failed to load seats from database", e);
         }
     }
 
     private void loadRooms(Connection conn, Map<UUID, List<Room>> cinemaRooms,
-                           Map<UUID, List<Seat>> roomSeats) throws SQLException {
+                           Map<UUID, List<Seat>> roomSeats) {
         String sql = """
                       SELECT id, cinema_id, number
                       FROM rooms;
@@ -95,11 +99,13 @@ public final class SqlCinemaRepository implements CinemaRepository {
 
                 cinemaRooms.computeIfAbsent(cinemaId, k -> new ArrayList<>()).add(room);
             }
+        } catch(SQLException e) {
+            throw new RuntimeException("Failed to load rooms from database", e);
         }
     }
 
     private void loadCinemas(Connection conn, Map<UUID, Cinema> cinemas,
-                             Map<UUID, List<Room>> cinemaRooms) throws SQLException {
+                             Map<UUID, List<Room>> cinemaRooms) {
         String sql = """
                       SELECT id, name
                       FROM cinemas;
@@ -119,6 +125,8 @@ public final class SqlCinemaRepository implements CinemaRepository {
 
                 cinemas.put(cinemaId, cinema);
             }
+        } catch(SQLException e) {
+            throw new RuntimeException("Failed to load cinemas from database", e);
         }
     }
 }
