@@ -2,17 +2,12 @@ package com.cinema.catalog.infrastructure.adapter.out.persistence;
 
 import com.cinema.catalog.application.query.dto.MovieDto;
 import com.cinema.catalog.application.query.port.MovieReadRepository;
-import com.cinema.catalog.domain.model.MovieId;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +22,7 @@ public final class SqlMovieReadRepository implements MovieReadRepository {
     }
 
     @Override
-    public Optional<MovieDto> findById(MovieId movieId) {
+    public Optional<MovieDto> findById(String movieId) {
         String sql = """
                       SELECT id, title, director_first_name, director_last_name,
                              description, genre, duration_minutes
@@ -38,7 +33,7 @@ public final class SqlMovieReadRepository implements MovieReadRepository {
         try (Connection conn = dataSource.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setObject(1, movieId.value());
+            stmt.setObject(1, movieId);
 
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
@@ -47,7 +42,7 @@ public final class SqlMovieReadRepository implements MovieReadRepository {
                 return Optional.empty();
             }
         } catch (SQLException e) {
-            LOGGER.error("Failed to find movie by id: {}", movieId.value(), e);
+            LOGGER.error("Failed to find movie by id: {}", movieId, e);
             throw new RuntimeException("Failed to read movie from database", e);
         }
     }
