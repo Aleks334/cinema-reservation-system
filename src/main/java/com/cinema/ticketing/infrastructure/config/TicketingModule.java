@@ -9,9 +9,11 @@ import com.cinema.ticketing.application.query.GetScreeningHandler;
 import com.cinema.ticketing.application.query.GetScreeningQuery;
 import com.cinema.ticketing.application.query.GetScreeningsForMovieHandler;
 import com.cinema.ticketing.application.query.GetScreeningsForMovieQuery;
+import com.cinema.ticketing.application.query.port.ScreeningReadRepository;
 import com.cinema.ticketing.domain.port.ScreeningRepository;
 import com.cinema.ticketing.infrastructure.adapter.in.web.ScreeningController;
 import com.cinema.ticketing.infrastructure.adapter.in.web.TicketingExceptionHandlerMapper;
+import com.cinema.ticketing.infrastructure.adapter.out.persistence.SqlScreeningReadRepository;
 import com.cinema.ticketing.infrastructure.adapter.out.persistence.SqlScreeningRepository;
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
@@ -44,6 +46,7 @@ public class TicketingModule extends AbstractModule {
         controllerBinder.addBinding().to(ScreeningController.class);
 
         bind(ScreeningRepository.class).to(SqlScreeningRepository.class);
+        bind(ScreeningReadRepository.class).to(SqlScreeningReadRepository.class);
 
         Multibinder<ExceptionHandlerMapper> exceptionBinder = Multibinder.newSetBinder(binder(), ExceptionHandlerMapper.class);
         exceptionBinder.addBinding().toInstance(new TicketingExceptionHandlerMapper());
