@@ -125,7 +125,7 @@ public final class SqlScreeningRepository implements ScreeningRepository {
                 int updated = stmt.executeUpdate();
                 if (updated == 0) {
                     throw new OptimisticLockException(
-                            "Seat " + seat.getSeat().position()
+                            "Seat " + seat.getSeat().getSeatPosition()
                                     + " was modified by another transaction. Please refresh and retry."
                     );
                 }
