@@ -5,7 +5,7 @@ import com.cinema.ticketing.domain.model.*;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +22,7 @@ public final class ScreeningMapper {
         ScreeningId screeningId = ScreeningId.from(rs.getString("id"));
         MovieId movieId = MovieId.from(rs.getString("movie_id"));
         RoomId roomId = RoomId.from(rs.getString("room_id"));
-        ZonedDateTime startDateTime = ZonedDateTime.parse(rs.getString("start_date_time"));
+        LocalDateTime startDateTime = LocalDateTime.parse(rs.getString("start_date_time"));
 
         List<ScreeningSeat> seats = new ArrayList<>();
 
@@ -55,7 +55,7 @@ public final class ScreeningMapper {
                         screeningId,
                         MovieId.from(rs.getString("movie_id")),
                         RoomId.from(rs.getString("room_id")),
-                        ZonedDateTime.parse(rs.getString("start_date_time")),
+                        LocalDateTime.parse(rs.getString("start_date_time")),
                         currentSeats
                 );
             }

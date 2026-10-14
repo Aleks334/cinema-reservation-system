@@ -4,7 +4,7 @@ import com.cinema.ticketing.domain.exception.SeatNotAvailableException;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -13,13 +13,13 @@ public final class Screening {
     private final ScreeningId id;
     private final MovieId movieId;
     private final RoomId roomId;
-    private final ZonedDateTime startDateTime;
+    private final LocalDateTime startDateTime;
 
     private final Map<ScreeningSeatId, ScreeningSeat> screeningSeats;
     private final Set<ScreeningSeatId> modifiedSeatIds = new HashSet<>();
 
     public Screening(ScreeningId id, MovieId movieId, RoomId roomId,
-                     ZonedDateTime startDateTime, List<ScreeningSeat> screeningSeats) {
+                     LocalDateTime startDateTime, List<ScreeningSeat> screeningSeats) {
 
         this.id = Objects.requireNonNull(id, "Screening ID cannot be null");
         this.movieId = Objects.requireNonNull(movieId, "Movie ID cannot be null");
@@ -85,7 +85,7 @@ public final class Screening {
         return roomId;
     }
 
-    public ZonedDateTime getStartDateTime() {
+    public LocalDateTime getStartDateTime() {
         return startDateTime;
     }
 
