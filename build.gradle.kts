@@ -42,7 +42,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("com.cinema.Main")
+    mainClass.set("com.cinema.bootstrap.Main")
 }
 
 tasks.test {

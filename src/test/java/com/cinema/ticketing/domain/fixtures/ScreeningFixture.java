@@ -8,6 +8,7 @@ import com.cinema.ticketing.domain.model.ScreeningSeat;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ScreeningFixture {
                 ScreeningId.generate(),
                 MovieId.generate(),
                 RoomId.generate(),
-                NOW.atZone(ZoneId.of("UTC")),
+                LocalDateTime.ofInstant(NOW, ZoneId.of("UTC")),
                 seats
         );
     }

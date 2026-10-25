@@ -45,13 +45,13 @@ public final class ScreeningSeat {
     public void reserve(Duration timeout, Instant now) {
         if (!isLocked()) {
             if (isReserved()) {
-                throw new SeatNotAvailableException("Seat " + seat.position() + " is already reserved");
+                throw new SeatNotAvailableException("Seat " + seat.getSeatPosition() + " is already reserved");
             }
-            throw new SeatNotAvailableException("Seat " + seat.position() + " must be locked before reservation");
+            throw new SeatNotAvailableException("Seat " + seat.getSeatPosition() + " must be locked before reservation");
         }
 
         if (isLockExpired(timeout, now)) {
-            throw new SeatNotAvailableException("Lock for seat " + seat.position() + " has expired");
+            throw new SeatNotAvailableException("Lock for seat " + seat.getSeatPosition() + " has expired");
         }
 
         this.status = ScreeningSeatStatus.RESERVED;

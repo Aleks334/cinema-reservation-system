@@ -41,7 +41,7 @@ public final class AppConfig {
         Properties props = new Properties();
         String propertiesFile = "/application-" + environment + ".properties";
 
-        try (InputStream input = AppConfig.class.getResourceAsStream(propertiesFile)) {
+        try (InputStream input = this.getClass().getResourceAsStream(propertiesFile)) {
             if (input == null) {
                 throw new RuntimeException(
                         "Unable to find configuration file: " + propertiesFile

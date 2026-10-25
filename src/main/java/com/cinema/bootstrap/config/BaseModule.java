@@ -12,7 +12,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import com.google.inject.multibindings.Multibinder;
 
-import java.sql.Connection;
+import javax.sql.DataSource;
 import java.time.Clock;
 import java.time.Duration;
 
@@ -42,7 +42,7 @@ public class BaseModule extends AbstractModule {
     }
 
     @Provides
-    private static Connection provideConnection(DatabaseConfig dbConfig) {
-        return dbConfig.getConnection();
+    private static DataSource provideDataSource(DatabaseConfig dbConfig) {
+        return dbConfig.getDataSource();
     }
 }
